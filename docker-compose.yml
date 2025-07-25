@@ -2,6 +2,16 @@
 version: '3.9'
 
 services:
+  ai-review:
+    image: your-ai-review-image
+    volumes:
+      - ./data:/data
+    command: [ "python", "scripts/ai_code_reviewer.py" ]
+
+  synthetic-data-gen:
+    image: your-synthetic-data-generator
+    command: [ "python", "src/agents/data_generator.py" ]
+
   wiremock:
     image: wiremock/wiremock
     ports:

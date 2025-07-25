@@ -1,11 +1,11 @@
 {
-  "name": "ci-cd-mcp-pipeline",
+  "name": "mcp-ai-agent-workflow",
   "version": "1.0.0",
   "description": "CI/CD Automation Pipeline with MCP Agent Orchestrator",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist/ test-results/ allure-report/ allure-results/ pipeline-reports/ reports/ allure-wdio-results",
+    "clean": "rm -rf dist/ test-results/ allure-report/ allure-results/ pipeline-reports/",
     "allure:generate": "npx allure generate allure-results -o allure-report || echo 'allure results generating report from.'",
     "allure:open": "npx allure open allure-report",
     "test:web": "npx playwright test tests/web",
