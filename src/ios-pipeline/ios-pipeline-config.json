@@ -1,0 +1,10 @@
+{
+  "scheme": "YourAppScheme",
+  "workspace": "YourApp.xcworkspace",
+  "configuration": "Release",
+  "team_id": "YOUR_TEAM_ID",
+  "bundle_id": "com.yourcompany.yourapp",
+  "app_store_connect_api_key_id": "YOUR_API_KEY_ID",
+  "app_store_connect_api_issuer_id": "YOUR_ISSUER_ID",
+  "app_store_connect_api_key_path": "/path/to/AuthKey_KEYID.p8"
+}

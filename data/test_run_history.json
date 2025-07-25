@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "name": "API: Should create user",
+      "history": ["pass", "pass", "fail", "pass", "fail"]
+    },
+    {
+      "name": "E2E: Customer cart checkout",
+      "history": ["pass", "pass", "pass", "pass", "pass"]
+    }
+  ]
+}

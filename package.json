@@ -1,0 +1,53 @@
+{
+  "name": "ci-cd-mcp-pipeline",
+  "version": "1.0.0",
+  "description": "CI/CD Automation Pipeline with MCP Agent Orchestrator",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist/ test-results/ allure-report/ allure-results/ pipeline-reports/ reports/ allure-wdio-results",
+    "allure:generate": "npx allure generate allure-results -o allure-report || echo 'allure results generating report from.'",
+    "allure:open": "npx allure open allure-report",
+    "test:web": "npx playwright test tests/web",
+    "test:api": "npx playwright test tests/api",
+    "test:wdio:mobile": "wdio run wdio.conf.ts",
+    "test:wdio:simulator": "npx wdio run src/config/wdio.ios.conf.js",
+    "test:wdio:headspin": "npx wdio run src/config/wdio.headspin.ios.conf.js",
+    "test:wdio-ios": "npx wdio run ./src/config/wdio.ios.conf.js",
+    "test:wdio-headspin": "npx wdio run ./src/config/wdio.headspin.ios.conf.js",
+    "playwright:test": "npx playwright test",
+    "start": "npm run build && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "Barb Gordon",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/jquery": "^3.5.32",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.1.0",
+    "@types/pg": "^8.15.4",
+    "@types/webdriverio": "^4.13.3",
+    "@wdio/allure-reporter": "^9.18.0",
+    "@wdio/appium-service": "^9.18.1",
+    "@wdio/cli": "^9.18.4",
+    "@wdio/local-runner": "^9.18.1",
+    "@wdio/mocha-framework": "^9.18.0",
+    "@wdio/spec-reporter": "^9.18.0",
+    "@wdio/types": "^9.16.2",
+    "allure-playwright": "^3.3.2",
+    "appium-xcuitest-driver": "^9.9.6",
+    "expect-webdriverio": "^5.4.0",
+    "typescript": "^5.0.0",
+    "webdriverio": "^9.18.1",
+    "wiremock": "^3.13.1"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "dotenv": "^17.2.0",
+    "execa": "^9.6.0",
+    "openai": "^5.10.2",
+    "otplib": "^12.0.1",
+    "pg": "^8.16.3"
+  }
+}

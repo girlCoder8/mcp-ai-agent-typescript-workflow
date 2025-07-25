@@ -1,0 +1,9 @@
+{
+  "tests": [
+    {
+      "name": "API: Should create user",
+      "log": "Received 500 error when POST /users. Payload: {...}",
+      "timestamp": "2025-07-18T15:29:12Z"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+TestCaseID#,TestCaseName,TestCase Steps,Precondition,Objective,Steps,Component,Comments
+TC001,Purchase with Credit Card,"1. Login as test_user; 2. Go to Shop; 3. Search 'Case of Red Wine'; 4. Add to Cart; 5. Checkout; 6. Pay with CC",User is registered and has a valid CC,"Validate E2E purchase via CC",See steps,Web,Core purchase
+TC002,Login with Invalid Password,"1. Login with invalid credentials","User exists in system","Login should fail with error when wrong password supplied","1. Open login screen; 2. Use bad password; 3. Check error",Web,Negative path

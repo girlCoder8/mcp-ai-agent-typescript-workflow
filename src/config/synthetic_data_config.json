@@ -1,0 +1,21 @@
+{
+  "data_generation": {
+    "user_profiles": {
+      "count": 100,
+      "fields": ["name", "email", "age", "location"],
+      "constraints": {
+        "age": {"min": 18, "max": 80},
+        "email": {"domain": ["@example.com", "@test.com"]}
+      }
+    },
+    "transaction_data": {
+      "count": 500,
+      "fields": ["transaction_id", "amount", "date", "status"],
+      "constraints": {
+        "amount": {"min": 1.00, "max": 1000.00},
+        "status": ["success", "failed", "pending"]
+      }
+    }
+  },
+  "output_path": "data/synthetic_data/"
+}

@@ -1,0 +1,30 @@
+Test Case: TC0001 - Authenticated User Places an Order for Wine with Credit Card
+
+Preconditions:
+- User 'admin' exists with a valid password.
+- Application is installed on the device.
+- Product 'red wine' is available in the shop.
+
+Steps:
+1. [Launch App]
+   - Open the mobile application on the device.
+
+2. [Login]
+   - Enter "admin" in the username field.
+   - Enter "secure_password" in the password field.
+   - Tap the Login button.
+   - Assert: Dashboard screen is displayed.
+
+3. [Add Wine to Cart]
+   - Tap on the "Shop" tab.
+   - In the search input, type "wine".
+   - Select the product labeled "red wine".
+   - Tap "Add to Cart" button.
+
+4. [Checkout with Credit Card]
+   - Tap the "Checkout" button.
+   - Select the "Credit Card" payment option.
+   - Tap the "Pay Now" button.
+
+5. [Confirm Success]
+   - Assert: Confirmation screen displays a "Thank you" message.
