@@ -22,7 +22,7 @@ Generate a WDIO+Appium Mocha test in TypeScript with best practices.
         ]
     )
     code = resp.choices[0].message.content
-    fname = f"gen-tests/wdio/mobile_{idx+1}_{row['Title'][:24].replace(' ', '_')}.spec.ts"
+    fname = f"gen-ai-tests/wdio/mobile_{idx+1}_{row['Title'][:24].replace(' ', '_')}.spec.ts"
     with open(fname, "w") as f:
         f.write(code)
     print(f"Generated: {fname}")
