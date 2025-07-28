@@ -2,4 +2,5 @@ diff --git a/src/shop/cart.ts b/src/shop/cart.ts
 index bf129..cf743 100644
 --- a/src/shop/cart.ts
 +++ b/src/shop/cart.ts
-@@ ... (fake diff for AI input)
+Removed deprecated agent
+Updated chaos fault injection logic

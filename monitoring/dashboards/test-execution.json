@@ -1,0 +1,6 @@
+{
+  "panels": [
+    {"type": "graph", "metric": "test_failure_rate"},
+    {"type": "pie", "metric": "test_status_distribution"}
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "model": "synthetic-testrun-analyzer-v1",
+  "framework": "sklearn",
+  "created": "2025-07-24",
+  "accuracy": 0.92
+}

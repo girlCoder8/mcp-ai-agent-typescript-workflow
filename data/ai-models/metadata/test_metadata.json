@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "version": "2.1.0",
+    "generatedAt": "2025-07-27T00:00:00Z",
+    "source": "AI Model Testing Framework",
+    "totalModels": 7,
+    "activeModels": 7,
+    "lastBenchmark": "2025-07-26T18:30:00Z"
+  },
+  "capabilities": {
+    "textGeneration": {
+      "models": ["gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "claude-3-opus", "claude-3-sonnet", "gemini-pro"],
+      "testCases": [
+        "creative_writing",
+        "technical_documentation",
+        "code_generation",
+        "summarization",
+        "translation",
+        "reasoning"
+      ]
+    },
+    "visionProcessing": {
+      "models": ["gpt-4-turbo", "claude-3-opus", "claude-3-sonnet", "gemini-pro-vision"],
+      "testCases": [
+        "image_description",
+        "chart_analysis",
+        "ocr_text_extraction",
+        "scene_understanding",
+        "object_detection"
+      ]
+    },
+    "functionCalling": {
+      "models": ["gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "claude-3-opus", "claude-3-sonnet", "gemini-pro"],
+      "testCases": [
+        "api_integration",
+        "data_manipulation",
+        "workflow_automation",
+        "parameter_validation"
+      ]
+    },
+    "streaming": {
+      "models": ["gpt-4-turbo", "gpt-4", "gpt-3.5-turbo", "claude-3-opus", "claude-3-sonnet", "gemini-pro"],
+      "testCases": [
+        "real_time_response",
+        "progressive_output",
+        "connection_stability",
+        "error_handling"
+      ]
+    }
+  },
+  "benchmarks": {
+    "latency": {
+      "gpt-4-turbo": {
+        "p50": 2200,
+        "p95": 4500,
+        "p99": 8000,
+        "unit": "ms",
+        "samples": 1000
+      },
+      "gpt-4": {
+        "p50": 2800,
+        "p95": 5200,
+        "p99": 9500,
+        "unit": "ms",
+        "samples": 1000
+      },
+      "gpt-3.5-turbo": {
+        "p50": 1000,
+        "p95": 2200,
+        "p99": 4000,
+        "unit": "ms",
+        "samples": 1000
+      },
+      "claude-3-opus": {
+        "p50": 3200,
+        "p95": 6000,
+        "p99": 10000,
+        "unit": "ms",
+        "samples": 1000
+      },
+      "claude-3-sonnet": {
+        "p50": 1800,
+        "p95": 3500,
+        "p99": 6000,
+        "unit": "ms",
+        "samples": 1000
+      },
+      "gemini-pro": {
+        "p50": 1600,
+        "p95": 3000,
+        "p99": 5500,
+        "unit": "ms",
+        "samples": 1000
+      },
+      "gemini-pro-vision": {
+        "p50": 3800,
+        "p95": 7000,
+        "p99": 12000,
+        "unit": "ms",
+        "samples": 500
+      }
+    },
+    "throughput": {
+      "gpt-4-turbo": {
+        "tokensPerSecond": 85,
+        "requestsPerMinute": 90,
+        "concurrentConnections": 10
+      },
+      "gpt-4": {
+        "tokensPerSecond": 65,
+        "requestsPerMinute": 70,
+        "concurrentConnections": 8
+      },
+      "gpt-3.5-turbo": {
+        "tokensPerSecond": 120,
+        "requestsPerMinute": 140,
+        "concurrentConnections": 15
+      },
+      "claude-3-opus": {
+        "tokensPerSecond": 55,
+        "requestsPerMinute": 50,
+        "concurrentConnections": 6
+      },
+      "claude-3-sonnet": {
+        "tokensPerSecond": 75,
+        "requestsPerMinute": 80,
+        "concurrentConnections": 10
+      },
+      "gemini-pro": {
+        "tokensPerSecond": 95,
+        "requestsPerMinute": 110,
+        "concurrentConnections": 12
+      },
+      "gemini-pro-vision": {
+        "tokensPerSecond": 35,
+        "requestsPerMinute": 30,
+        "concurrentConnections": 4
+      }
+    },
+    "reliability": {
+      "gpt-4-turbo": {
+        "uptime": 99.95,
+        "errorRate": 0.05,
+        "successfulRequests": 9995,
+        "totalRequests": 10000
+      },
+      "claude-3-sonnet": {
+        "uptime": 99.8,
+        "errorRate": 0.2,
+        "successfulRequests": 9980,
+        "totalRequests": 10000
+      },
+      "gemini-pro": {
+        "uptime": 99.6,
+        "errorRate": 0.4,
+        "successfulRequests": 9960,
+        "totalRequests": 10000
+      }
+    }
+  },
+  "qualityMetrics": {
+    "coherence": {
+      "gpt-4-turbo": 9.2,
+      "claude-3-opus": 9.4,
+      "claude-3-sonnet": 8.8,
+      "gemini-pro": 8.6,
+      "scale": "1-10"
+    },
+    "factualAccuracy": {
+      "gpt-4-turbo": 87.5,
+      "claude-3-opus": 89.2,
+      "claude-3-sonnet": 85.1,
+      "gemini-pro": 83.7,
+      "unit": "percentage"
+    },
+    "helpfulness": {
+      "gpt-4-turbo": 8.9,
+      "claude-3-opus": 9.1,
+      "claude-3-sonnet": 8.7,
+      "gemini-pro": 8.4,
+      "scale": "1-10"
+    }
+  },
+  "limitations": {
+    "gpt-4-turbo": [
+      "Knowledge cutoff: April 2024",
+      "May produce hallucinations for recent events",
+      "Rate limited in production environments"
+    ],
+    "claude-3-opus": [
+      "Higher latency compared to other models",
+      "More conservative in responses",
+      "Limited availability during peak hours"
+    ],
+    "claude-3-sonnet": [
+      "Balanced performance but not specialized",
+      "May lack depth in highly technical topics"
+    ],
+    "gemini-pro": [
+      "Still improving function calling capabilities",
+      "Limited creative writing compared to GPT models",
+      "Occasional context window issues"
+    ],
+    "gemini-pro-vision": [
+      "No streaming support",
+      "Limited to image processing only",
+      "Higher error rates with complex images"
+    ]
+  },
+  "testCategories": {
+    "functional": {
+      "description": "Core functionality and feature validation",
+      "priority": "high",
+      "frequency": "daily"
+    },
+    "performance": {
+      "description": "Response time, throughput, and resource usage",
+      "priority": "high",
+      "frequency": "continuous"
+    },
+    "reliability": {
+      "description": "Error handling, retry mechanisms, fallbacks",
+      "priority": "critical",
+      "frequency": "continuous"
+    },
+    "security": {
+      "description": "Input validation, data protection, access control",
+      "priority": "critical",
+      "frequency": "weekly"
+    },
+    "compatibility": {
+      "description": "Cross-platform, API version compatibility",
+      "priority": "medium",
+      "frequency": "weekly"
+    },
+    "usability": {
+      "description": "User experience, interface design, accessibility",
+      "priority": "medium",
+      "frequency": "monthly"
+    }
+  }
+}

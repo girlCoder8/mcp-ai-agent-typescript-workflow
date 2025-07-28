@@ -1,0 +1,4 @@
+alert:
+  name: "Critical Pipeline Failure"
+  condition: "test_failure_rate > 30%"
+  action: "SendNotification"

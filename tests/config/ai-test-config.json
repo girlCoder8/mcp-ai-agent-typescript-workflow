@@ -1,0 +1,240 @@
+{
+    "version": "1.0.0",
+    "lastUpdated": "2025-07-24T00:00:00Z",
+    "defaultModel": "gpt-4-turbo",
+    "timeout": {
+        "default": 30000,
+        "streaming": 60000,
+        "batch": 300000
+    },
+    "retryPolicy": {
+        "maxRetries": 3,
+        "backoffMultiplier": 2,
+        "initialDelay": 1000
+    },
+    "models": {
+        "openai": {
+            "provider": "OpenAI",
+            "baseUrl": "https://api.openai.com/v1",
+            "models": {
+                "gpt-4-turbo": {
+                    "id": "gpt-4-turbo-preview",
+                    "name": "GPT-4 Turbo",
+                    "type": "chat",
+                    "maxTokens": 128000,
+                    "contextWindow": 128000,
+                    "supportsFunctions": true,
+                    "supportsVision": true,
+                    "supportsStreaming": true,
+                    "pricing": {
+                        "input": 0.01,
+                        "output": 0.03,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 2500,
+                        "reliability": 99.9,
+                        "throughput": 100
+                    }
+                },
+                "gpt-4": {
+                    "id": "gpt-4",
+                    "name": "GPT-4",
+                    "type": "chat",
+                    "maxTokens": 8192,
+                    "contextWindow": 8192,
+                    "supportsFunctions": true,
+                    "supportsVision": false,
+                    "supportsStreaming": true,
+                    "pricing": {
+                        "input": 0.03,
+                        "output": 0.06,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 3000,
+                        "reliability": 99.8,
+                        "throughput": 80
+                    }
+                },
+                "gpt-3.5-turbo": {
+                    "id": "gpt-3.5-turbo",
+                    "name": "GPT-3.5 Turbo",
+                    "type": "chat",
+                    "maxTokens": 4096,
+                    "contextWindow": 16385,
+                    "supportsFunctions": true,
+                    "supportsVision": false,
+                    "supportsStreaming": true,
+                    "pricing": {
+                        "input": 0.0015,
+                        "output": 0.002,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 1200,
+                        "reliability": 99.7,
+                        "throughput": 150
+                    }
+                }
+            }
+        },
+        "anthropic": {
+            "provider": "Anthropic",
+            "baseUrl": "https://api.anthropic.com/v1",
+            "models": {
+                "claude-3-opus": {
+                    "id": "claude-3-opus-20240229",
+                    "name": "Claude 3 Opus",
+                    "type": "chat",
+                    "maxTokens": 4096,
+                    "contextWindow": 200000,
+                    "supportsFunctions": true,
+                    "supportsVision": true,
+                    "supportsStreaming": true,
+                    "pricing": {
+                        "input": 0.015,
+                        "output": 0.075,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 3500,
+                        "reliability": 99.8,
+                        "throughput": 60
+                    }
+                },
+                "claude-3-sonnet": {
+                    "id": "claude-3-sonnet-20240229",
+                    "name": "Claude 3 Sonnet",
+                    "type": "chat",
+                    "maxTokens": 4096,
+                    "contextWindow": 200000,
+                    "supportsFunctions": true,
+                    "supportsVision": true,
+                    "supportsStreaming": true,
+                    "pricing": {
+                        "input": 0.003,
+                        "output": 0.015,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 2000,
+                        "reliability": 99.7,
+                        "throughput": 90
+                    }
+                }
+            }
+        },
+        "google": {
+            "provider": "Google",
+            "baseUrl": "https://generativelanguage.googleapis.com/v1",
+            "models": {
+                "gemini-pro": {
+                    "id": "gemini-pro",
+                    "name": "Gemini Pro",
+                    "type": "chat",
+                    "maxTokens": 2048,
+                    "contextWindow": 32768,
+                    "supportsFunctions": true,
+                    "supportsVision": false,
+                    "supportsStreaming": true,
+                    "pricing": {
+                        "input": 0.0005,
+                        "output": 0.0015,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 1800,
+                        "reliability": 99.5,
+                        "throughput": 120
+                    }
+                },
+                "gemini-pro-vision": {
+                    "id": "gemini-pro-vision",
+                    "name": "Gemini Pro Vision",
+                    "type": "chat",
+                    "maxTokens": 2048,
+                    "contextWindow": 16384,
+                    "supportsFunctions": false,
+                    "supportsVision": true,
+                    "supportsStreaming": false,
+                    "pricing": {
+                        "input": 0.00025,
+                        "output": 0.0005,
+                        "currency": "USD",
+                        "per": 1000
+                    },
+                    "performance": {
+                        "avgResponseTime": 4000,
+                        "reliability": 99.3,
+                        "throughput": 40
+                    }
+                }
+            }
+        }
+    },
+    "testSuites": {
+        "smoke": {
+            "models": ["gpt-3.5-turbo", "claude-3-sonnet", "gemini-pro"],
+            "timeout": 15000,
+            "maxConcurrency": 5
+        },
+        "regression": {
+            "models": ["gpt-4-turbo", "claude-3-opus", "gpt-3.5-turbo"],
+            "timeout": 30000,
+            "maxConcurrency": 3
+        },
+        "performance": {
+            "models": ["gpt-4-turbo", "claude-3-sonnet"],
+            "timeout": 60000,
+            "maxConcurrency": 10,
+            "iterations": 100
+        },
+        "visual": {
+            "models": ["gpt-4-turbo", "claude-3-opus", "gemini-pro-vision"],
+            "timeout": 45000,
+            "maxConcurrency": 2
+        }
+    },
+    "environments": {
+        "development": {
+            "rateLimit": {
+                "requestsPerMinute": 100,
+                "tokensPerMinute": 50000
+            },
+            "logging": {
+                "level": "debug",
+                "includeRequestBody": true,
+                "includeResponseBody": true
+            }
+        },
+        "staging": {
+            "rateLimit": {
+                "requestsPerMinute": 500,
+                "tokensPerMinute": 200000
+            },
+            "logging": {
+                "level": "info",
+                "includeRequestBody": false,
+                "includeResponseBody": false
+            }
+        },
+        "production": {
+            "rateLimit": {
+                "requestsPerMinute": 1000,
+                "tokensPerMinute": 500000
+            },
+            "logging": {
+                "level": "warn",
+                "includeRequestBody": false,
+                "includeResponseBody": false
+            }
+        }
+    }
+}

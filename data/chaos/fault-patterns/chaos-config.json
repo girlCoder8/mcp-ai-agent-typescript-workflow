@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "fault_types": ["latency", "http_500", "disconnect"],
+  "frequency": "daily"
+}

@@ -1,0 +1,5 @@
+{
+  "anonymize": ["email", "phone"],
+  "row_limit": 1000,
+  "missing_values_percent": 5
+}

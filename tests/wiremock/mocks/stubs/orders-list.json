@@ -1,0 +1,91 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/orders",
+    "headers": {
+      "Accept": {
+        "contains": "application/json"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Total-Count": "3"
+    },
+    "jsonBody": [
+      {
+        "id": 1001,
+        "customerId": "CUST001",
+        "status": "completed",
+        "total": 299.99,
+        "orderDate": "2024-01-15T10:30:00Z",
+        "items": [
+          {
+            "productId": "PROD001",
+            "name": "Wireless Headphones",
+            "quantity": 1,
+            "price": 149.99
+          },
+          {
+            "productId": "PROD002",
+            "name": "Phone Case",
+            "quantity": 2,
+            "price": 75.00
+          }
+        ],
+        "shippingAddress": {
+          "street": "123 Main St",
+          "city": "Anytown",
+          "state": "CA",
+          "zipCode": "12345"
+        }
+      },
+      {
+        "id": 1002,
+        "customerId": "CUST002",
+        "status": "pending",
+        "total": 149.99,
+        "orderDate": "2024-01-18T14:20:00Z",
+        "items": [
+          {
+            "productId": "PROD003",
+            "name": "Bluetooth Speaker",
+            "quantity": 1,
+            "price": 149.99
+          }
+        ],
+        "shippingAddress": {
+          "street": "456 Oak Ave",
+          "city": "Springfield",
+          "state": "NY",
+          "zipCode": "67890"
+        }
+      },
+      {
+        "id": 1003,
+        "customerId": "CUST001",
+        "status": "shipped",
+        "total": 89.99,
+        "orderDate": "2024-01-19T09:15:00Z",
+        "items": [
+          {
+            "productId": "PROD004",
+            "name": "USB Cable",
+            "quantity": 3,
+            "price": 29.99
+          }
+        ],
+        "shippingAddress": {
+          "street": "123 Main St",
+          "city": "Anytown",
+          "state": "CA",
+          "zipCode": "12345"
+        }
+      }
+    ]
+  }
+}
+
+

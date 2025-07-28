@@ -1,0 +1,4 @@
+[
+  {"reviewer": "AI", "result": "Pass"},
+  {"reviewer": "AI", "result": "Fail", "comments": "Found code smells in utils.ts"}
+]

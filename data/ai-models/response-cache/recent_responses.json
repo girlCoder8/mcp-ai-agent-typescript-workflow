@@ -1,0 +1,4 @@
+[
+  {"prompt": "Test login", "response": "Test case generated: ..."},
+  {"prompt": "Check resilience", "response": "Injected latency, observed recovery."}
+]

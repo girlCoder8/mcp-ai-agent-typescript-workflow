@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  ai-review:
+    image: your-ai-review-image
+    volumes:
+      - ./data:/data
+    command: [ "python", "scripts/ai_code_reviewer.py" ]
+
+  synthetic-data-gen:
+    image: your-synthetic-data-generator
+    command: [ "python", "src/agents/data_generator.py" ]
+
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ci_cd_mcp
+    ports:
+      - "5432:5432"
+      -
+  wiremock:
+    image: wiremock/wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/mocks/wiremock:/home/wiremock
+  automation-framework:
+    build: .
+    container_name: mcp_ai_framework
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=dev
+    ports:
+      - "3000:3000"
+    command: npm run dev
+
+  openai-proxy:
+    image: openai/openai-proxy:latest
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"

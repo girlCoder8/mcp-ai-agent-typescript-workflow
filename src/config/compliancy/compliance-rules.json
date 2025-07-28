@@ -1,0 +1,5 @@
+{
+  "gdpr": true,
+  "pii_fields": ["email", "user_id", "address"],
+  "retention_days": 90
+}

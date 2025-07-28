@@ -1,8 +1,8 @@
 import openai, os
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-PSEUDOCODE_FILE = "scripts/sample.pseudo"
-OUT_FILE = "gen-ai-tests/from_pseudocode.ts"
+PSEUDOCODE_FILE = "data/TC001_purchase_scenario.pseudo"
+OUT_FILE = "gen-ai-tests/playwright/tc_1_Login_and_Purchase.spec.ts"
 
 with open(PSEUDOCODE_FILE, "r") as f:
     pseudocode = f.read()

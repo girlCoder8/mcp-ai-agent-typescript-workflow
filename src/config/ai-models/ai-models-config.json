@@ -1,0 +1,6 @@
+{
+  "models": [
+    {"name": "openai-gpt-4", "provider": "OpenAI", "purpose": "coding_assistance"},
+    {"name": "anthropic-claude", "provider": "Anthropic", "purpose": "test_generation"}
+  ]
+}

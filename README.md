@@ -6,13 +6,13 @@ This framework integrates Playwright for API testing, WebdriverIO + Appium for m
 ## Project Layout
 
 - `src/` - Source code (agents, orchestrator, reports, types)
-- `tests/` - Playwright-based API and mobile tests
+- `tests/` - Playwright-based API-/api, Web-/web, and Wiremock-/wiremock/mock tests
 - `gen-ai-tests/` - AI generated tests
 - `scripts/` - Python scripts
 - `data/` - Pseudocode, .json, and .csv files
 - `api_tests.json` - Sample Postman collection
-- `playwright.config.ts` - Playwright test configuration
-- `wdio.conf.ts` - Webdriverio test config
+- `playwright.config.ai.ts` - Playwright ai test configuration
+- `wdio.conf.ai.ts` - Webdriverio test config
 - `package.json`, `tsconfig.json` - Project config
 
 ## Getting Started
@@ -82,7 +82,7 @@ ci-cd-mcp-pipeline/
 ├── docker-compose.yml        # Multi-container orchestration
 ├── tsconfig.json             # TypeScript config (main)
 ├── tsconfig.test.json        # TypeScript config (tests)
-└── wdio.conf.ts              # WebdriverIO configuration
+└── wdio.conf.ai.ts              # WebdriverIO configuration
 
 ````
 
@@ -131,7 +131,7 @@ Now also supports API keys/secrets for Python scripts (e.g., OPENAI_API_KEY)
     "allure:open": "npx allure open allure-report",
     "test:web": "npx playwright test tests/web",
     "test:api": "npx playwright test tests/api",
-    "test:wdio:mobile": "wdio run wdio.conf.ts",
+    "test:wdio:mobile": "wdio run wdio.conf.ai.ts",
     "test:wdio:simulator": "npx wdio run src/config/wdio.ios.conf.js",
     "test:wdio:headspin": "npx wdio run src/config/wdio.headspin.ios.conf.js",
     "test:wdio-ios": "npx wdio run ./src/config/wdio.ios.conf.js",

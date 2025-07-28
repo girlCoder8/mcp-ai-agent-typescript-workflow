@@ -5,7 +5,7 @@ import re
 
 # --- Configuration ---
 CSV_PATH = "data/manual_test_cases.csv"
-OUT_DIR = "gen--ai-tests/playwright"
+OUT_DIR = "gen-ai-tests/playwright"
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 MODEL = "gpt-4o"  # Use your preferred OpenAI model
 
