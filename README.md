@@ -6,21 +6,22 @@ This framework integrates Playwright for API testing, WebdriverIO + Appium for m
 ## Project Layout
 
 - `src/` - Source code (agents, orchestrator, reports, types)
-- `tests/` - Playwright-based API-/api, Web-/web, and Wiremock-/wiremock/mock tests
-- `gen-ai-tests/` - AI generated tests
+- `tests/` - Playwright-based API-/api and Web-/web
+- `gen-ai-tests/` - AI generated tests from csv files
 - `scripts/` - Python scripts
 - `data/` - Pseudocode, .json, and .csv files
-- `api_tests.json` - Sample Postman collection
+- `api_tests.json` - Postman collection
 - `playwright.config.ai.ts` - Playwright ai test configuration
 - `wdio.conf.ai.ts` - Webdriverio test config
+- `headspin.config.at.ts` - Headspin test config
 - `package.json`, `tsconfig.json` - Project config
 
 ## Getting Started
 
 ## Clone the project
 
-git clone https://github.com/girlCoder8/ai-mcp-agent-automation
-cd ai-mcp-agent-automation
+git clone https://github.com/girlCoder8/ai-mcp-typescript-workflow
+cd ai-mcp-typescript-workflow
 
 
 1. **Install dependencies**
@@ -75,14 +76,15 @@ ci-cd-mcp-pipeline/
 │   └── some_security_risks.md
 ├── package.json              # Node.js dependencies and scripts
 ├── README.md                 # This file
-├── .gitignore
+├── .gitignore                # Files and directories to not commit
 ├── api_tests.json            # API tests definition/config
 ├── playwright.config.ts      # Playwright configuration
 ├── Dockerfile                # Docker container spec
 ├── docker-compose.yml        # Multi-container orchestration
 ├── tsconfig.json             # TypeScript config (main)
 ├── tsconfig.test.json        # TypeScript config (tests)
-└── wdio.conf.ai.ts              # WebdriverIO configuration
+├── headspin.config.ai.ts     # Headspin config file
+└── wdio.conf.ai.ts           # WebdriverIO configuration
 
 ````
 

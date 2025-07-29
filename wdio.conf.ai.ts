@@ -337,11 +337,11 @@ export const config: Options.Testrunner = {
 
     specs: [
         './tests/mobile/**/*.{js,ts}',
-     //   './tests/e2e/mobile/**/*.{js,ts}'  //e2e-wdio-mobile folder needed
+        //   './tests/e2e/mobile/**/*.{js,ts}'  //e2e-wdio-mobile folder needed
     ],
     exclude: [
-      //  './tests/mobile/**/*.skip.{js,ts}',
-      //  './tests/mobile/**/*.wip.{js,ts}'
+        //  './tests/mobile/**/*.skip.{js,ts}',
+        //  './tests/mobile/**/*.wip.{js,ts}'
     ],
     maxInstances: aiConfig.parallelExecution.enabled ? aiConfig.parallelExecution.maxDevices : 1,
     maxInstancesPerCapability: 1,
