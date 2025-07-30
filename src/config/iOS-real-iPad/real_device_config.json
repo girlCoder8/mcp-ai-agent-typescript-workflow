@@ -1,0 +1,15 @@
+{
+  "smartDeviceSelection": {
+    "deviceMatrix": [
+      {
+        "platformName": "iOS",
+        "deviceName": "Your iPad Name",
+        "platformVersion": "17.5",
+        "udid": "your_actual_udid",
+        "wdaLocalPort": 8100,
+        "mjpegServerPort": 9100,
+        "webkitDebugProxyPort": 27753
+      }
+    ]
+  }
+}

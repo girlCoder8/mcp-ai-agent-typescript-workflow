@@ -165,7 +165,7 @@ class E2ECoordinator:
             "frameworks": {
                 "playwright": {
                     "command": "npx playwright test",
-                    "config_file": "playwright.config.ts",
+                    "config_file": "playwright.config.tc.ts",
                     "report_format": "json"
                 },
                 "wdio": {

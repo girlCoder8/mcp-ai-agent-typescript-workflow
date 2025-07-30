@@ -210,7 +210,7 @@ function checkFileStructure(): HealthCheckResult[] {
     const results: HealthCheckResult[] = [];
 
     const requiredFiles = [
-        { path: './playwright.config.ts', name: 'Playwright Config' },
+        { path: './playwright.config.tc.ts', name: 'Playwright Config' },
         { path: './global-setup-tc.ts', name: 'Global Setup' },
         { path: './global-teardown-tc.ts', name: 'Global Teardown' }
     ];
@@ -222,9 +222,9 @@ function checkFileStructure(): HealthCheckResult[] {
     ];
 
     const optionalDirectories = [
-        { path: './tests/generated', name: 'Generated Tests Directory' },
-        { path: './tests/generated/web', name: 'Web Tests Directory' },
-        { path: './tests/generated/mobile', name: 'Mobile Tests Directory' },
+        { path: './tests/ai-generated', name: 'Generated Tests Directory' },
+        { path: './tests/ai-generated/web', name: 'Web Tests Directory' },
+        { path: './tests/ai-generated/mobile', name: 'Mobile Tests Directory' },
         { path: './scripts', name: 'Scripts Directory' }
     ];
 
@@ -297,10 +297,10 @@ function checkFileStructure(): HealthCheckResult[] {
 function checkConfiguration(): HealthCheckResult[] {
     const results: HealthCheckResult[] = [];
 
-    // Check playwright.config.ts
-    if (fs.existsSync('./playwright.config.ts')) {
+    // Check playwright.config.tc.ts
+    if (fs.existsSync('./playwright.config.tc.ts')) {
         try {
-            const configContent = fs.readFileSync('./playwright.config.ts', 'utf8');
+            const configContent = fs.readFileSync('./playwright.config.tc.ts', 'utf8');
 
             if (configContent.includes('global-setup-tc.ts')) {
                 results.push({
@@ -316,7 +316,7 @@ function checkConfiguration(): HealthCheckResult[] {
                     name: 'Global Setup',
                     status: 'warn',
                     message: 'Global setup not configured',
-                    details: 'Add globalSetup to playwright.config.ts'
+                    details: 'Add globalSetup to playwright.config.tc.ts'
                 });
             }
 
@@ -334,7 +334,7 @@ function checkConfiguration(): HealthCheckResult[] {
                     name: 'Global Teardown',
                     status: 'warn',
                     message: 'Global teardown not configured',
-                    details: 'Add globalTeardown to playwright.config.ts'
+                    details: 'Add globalTeardown to playwright.config.tc.ts'
                 });
             }
 
@@ -344,7 +344,7 @@ function checkConfiguration(): HealthCheckResult[] {
                 name: 'Playwright Config',
                 status: 'fail',
                 message: 'Error reading configuration',
-                details: 'Check playwright.config.ts syntax'
+                details: 'Check playwright.config.tc.ts syntax'
             });
         }
     }

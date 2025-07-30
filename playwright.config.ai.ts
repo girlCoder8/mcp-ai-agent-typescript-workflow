@@ -310,8 +310,10 @@ const optimalWorkers = calculateOptimalWorkers(aiConfig);
 export default defineConfig({
     testDir: './tests',
     testMatch: [
-        '**/*.spec.ts',
-        '**/*.test.ts'
+        'web/*.spec.ts',
+        'web/*.test.ts'
+        //'web/e2e/*.spec.ts'
+        //'web/e2e/*.test.ts'
     ],
     timeout: 30000, // Reduced timeout for API tests
     expect: {

@@ -12,7 +12,7 @@ This framework integrates Playwright for API testing, WebdriverIO + Appium for m
 - `data/` - Pseudocode, .json, and .csv files
 - `api_tests.json` - Postman collection
 - `playwright.config.ai.ts` - Playwright ai test configuration
-- `wdio.conf.ai.ts` - Webdriverio test config
+- `wdio.conf.ai.sim.ts` - Webdriverio test config
 - `headspin.config.at.ts` - Headspin test config
 - `package.json`, `tsconfig.json` - Project config
 
@@ -78,13 +78,13 @@ ci-cd-mcp-pipeline/
 ├── README.md                 # This file
 ├── .gitignore                # Files and directories to not commit
 ├── api_tests.json            # API tests definition/config
-├── playwright.config.ts      # Playwright configuration
+├── playwright.config.tc.ts      # Playwright configuration
 ├── Dockerfile                # Docker container spec
 ├── docker-compose.yml        # Multi-container orchestration
 ├── tsconfig.json             # TypeScript config (main)
 ├── tsconfig.test.json        # TypeScript config (tests)
 ├── headspin.config.ai.ts     # Headspin config file
-└── wdio.conf.ai.ts           # WebdriverIO configuration
+└── wdio.conf.ai.sim.ts           # WebdriverIO configuration
 
 ````
 
@@ -133,7 +133,7 @@ Now also supports API keys/secrets for Python scripts (e.g., OPENAI_API_KEY)
     "allure:open": "npx allure open allure-report",
     "test:web": "npx playwright test tests/web",
     "test:api": "npx playwright test tests/api",
-    "test:wdio:mobile": "wdio run wdio.conf.ai.ts",
+    "test:wdio:mobile": "wdio run wdio.conf.ai.sim.ts",
     "test:wdio:simulator": "npx wdio run src/config/wdio.ios.conf.js",
     "test:wdio:headspin": "npx wdio run src/config/wdio.headspin.ios.conf.js",
     "test:wdio-ios": "npx wdio run ./src/config/wdio.ios.conf.js",
@@ -155,7 +155,7 @@ npx wdio src/config/wdio.ios.conf.js
 ✅ 2. For HeadSpin Real Device:
 npx wdio src/config/wdio.headspin.ios.conf.js
 
-Only Playwright’s Allure reporter (enabled via playwright.config.ts) should write to allure-results/.
+Only Playwright’s Allure reporter (enabled via playwright.config.tc.ts) should write to allure-results/.
 
 Your custom pipeline summary JSON is written to pipeline-reports/.
 

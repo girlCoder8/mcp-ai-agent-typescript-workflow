@@ -9,7 +9,7 @@ interface TestDataFile {
 export function setupTestData(): void {
     const testDataDir = './test-data';
 
-    // Create test-data directory
+    // Create a test-data directory
     if (!fs.existsSync(testDataDir)) {
         fs.mkdirSync(testDataDir, { recursive: true });
         console.log('📁 Created test-data directory');
@@ -147,7 +147,7 @@ tap ".back-button"
 long_press ".product-item" duration="1000"
 expect ".context-menu" toBeVisible`;
 
-    // Create array of files to write
+    // Create an array of files to write
     const files: TestDataFile[] = [
         { path: path.join(testDataDir, 'web-test-cases.csv'), content: webCsvContent },
         { path: path.join(testDataDir, 'mobile-test-cases.csv'), content: mobileCsvContent },
@@ -168,9 +168,9 @@ expect ".context-menu" toBeVisible`;
     // Create additional directories
     const directories = [
         './tests',
-        './tests/generated',
-        './tests/generated/web',
-        './tests/generated/mobile',
+        './tests/ai-generated',
+        './tests/ai-generated/web',
+        './tests/ai-generated/mobile',
         './tests/manual',
         './tests/api',
         './tests/visual',

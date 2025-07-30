@@ -1,14 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
-
-// require('dotenv').config();
+require('dotenv').config();
 
 export default defineConfig({
-    globalSetup: require.resolve('./global-setup-tc.ts'),
-    globalTeardown: require.resolve('./global-teardown-tc.ts'),
+    globalSetup: require.resolve('./scripts/globalSetup-TCs/global-setup-tcs.ts'),
+    globalTeardown: require.resolve('./scripts/globalTeardown-TCs/global-teardown-tcs.ts'),
     testDir: './tests',
     testMatch: [
-        '**/tests/**/*.spec.ts',
-        '**/tests/generated/**/*.spec.ts'
+      //  '**/tests/**/*.spec.ts',
+        '/auto-ai-generated/playwright/*.spec.ts'
     ],
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
@@ -16,9 +15,10 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: [
         ['list', {}],
-        ['html', { outputFolder: 'test-reports/playwright-report', open: 'never' }],
-        ['json', { outputFile: 'test-reports/results.json' }],
-        ['junit', { outputFile: 'test-reports/junit.xml' }],
+        ['html', { outputFolder: 'pipeline-reports/playwright-report', open: 'never' }],
+        ['json', { outputFile: 'pipeline-reports/results.json' }],
+        ['junit', { outputFile: 'pipeline-reports/junit.xml' }],
+        ['allure-playwright', { outputFile: 'allure-results/playwright-allure-results.json' }],
     ],
     use: {
         baseURL: process.env.BASE_URL || 'http://localhost:3000',
@@ -32,7 +32,7 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium-web',
-            testDir: './tests/generated/web',
+            testDir: './tests/ai-generated/web',
             use: {
                 ...devices['Desktop Chrome'],
                 viewport: { width: 1920, height: 1080 }
@@ -40,7 +40,7 @@ export default defineConfig({
         },
         {
             name: 'firefox-web',
-            testDir: './tests/generated/web',
+            testDir: './tests/ai-generated/web',
             use: {
                 ...devices['Desktop Firefox'],
                 viewport: { width: 1920, height: 1080 }
@@ -48,31 +48,34 @@ export default defineConfig({
         },
         {
             name: 'webkit-web',
-            testDir: './tests/generated/web',
+            testDir: './tests/ai-generated/web',
             use: {
                 ...devices['Desktop Safari'],
                 viewport: { width: 1920, height: 1080 }
             },
         },
         {
-            name: 'mobile-chrome',
-            testDir: './tests/generated/mobile',
+            name: 'auto-gen-ai-web-tests',
+            testDir: './auto-gen-ai-tests/playwright',
             use: {
-                ...devices['iPad (10th generation)'],
+                ...devices['Desktop Chrome'],
+                viewport: { width: 1920, height: 1080 }
             },
         },
         {
-            name: 'mobile-safari',
-            testDir: './tests/generated/mobile',
+            name: 'auto-gen-ai-web-tests',
+            testDir: './auto-gen-ai-tests/playwright',
             use: {
-                ...devices['iPad (10th generation)'],
+                ...devices['Desktop Firefox'],
+                viewport: { width: 1920, height: 1080 }
             },
         },
         {
-            name: 'tablet-chrome',
-            testDir: './tests/generated/mobile',
+            name: 'auto-gen-ai-web-tests',
+            testDir: './auto-gen-ai-tests/playwright',
             use: {
-                ...devices['iPad (10th generation)'],
+                ...devices['Desktop Safari'],
+                viewport: { width: 1920, height: 1080 }
             },
         },
         {

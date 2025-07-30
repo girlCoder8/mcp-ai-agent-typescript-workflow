@@ -1,8 +1,8 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches:
+ # push:
+ #   branches:
 #   - main
 #   - 'release/*'
   pull_request:

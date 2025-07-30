@@ -336,8 +336,8 @@ export const config: Options.Testrunner = {
     port: 4723,
 
     specs: [
-        './tests/mobile/**/*.{js,ts}',
-        //   './tests/e2e/mobile/**/*.{js,ts}'  //e2e-wdio-mobile folder needed
+        './tests/mobile/wdio/*.{js,ts}',
+        //   './tests/e2e/mobile/e2e/*.{js,ts}'  //e2e-wdio-mobile folder needed
     ],
     exclude: [
         //  './tests/mobile/**/*.skip.{js,ts}',
