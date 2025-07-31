@@ -216,13 +216,20 @@ function checkFileStructure(): HealthCheckResult[] {
     ];
 
     const requiredDirectories = [
-        { path: './test-data', name: 'Test Data Directory' },
         { path: './tests', name: 'Tests Directory' },
-        { path: './test-reports', name: 'Reports Directory' }
+        { path: './test-data', name: 'Test Data Directory' },
+        { path: './test-reports', name: 'Reports Directory' },
+        { path: './pipeline-reports', name: 'Pipeline Reports Directory' },
+        { path: './Playwright-reports', name: 'Playwright Reports Directory' },
+        { path: './allure-reports', name: 'Allure Reports Directory' }
     ];
 
     const optionalDirectories = [
-        { path: './tests/ai-generated', name: 'Generated Tests Directory' },
+        { path: './src', name: 'Source/Core Logic Directory' },
+        { path: './tests', name: 'Tests Directory' },
+        { path: './tests/api', name: 'API Tests Directory' },
+        { path: './test-data', name: 'Test Data Directory' },
+        { path: './auto-gen-ai-tests/ai-generated', name: 'AI Generated Tests Directory' },
         { path: './tests/ai-generated/web', name: 'Web Tests Directory' },
         { path: './tests/ai-generated/mobile', name: 'Mobile Tests Directory' },
         { path: './scripts', name: 'Scripts Directory' }
@@ -297,12 +304,12 @@ function checkFileStructure(): HealthCheckResult[] {
 function checkConfiguration(): HealthCheckResult[] {
     const results: HealthCheckResult[] = [];
 
-    // Check playwright.config.tc.ts
-    if (fs.existsSync('./playwright.config.tc.ts')) {
+    // Check playwright.config.ai.ts
+    if (fs.existsSync('./playwright.config.ai.ts')) {
         try {
-            const configContent = fs.readFileSync('./playwright.config.tc.ts', 'utf8');
+            const configContent = fs.readFileSync('./playwright.config.ai.ts', 'utf8');
 
-            if (configContent.includes('global-setup-tc.ts')) {
+            if (configContent.includes('global-setup.ts')) {
                 results.push({
                     category: 'Configuration',
                     name: 'Global Setup',
@@ -316,11 +323,11 @@ function checkConfiguration(): HealthCheckResult[] {
                     name: 'Global Setup',
                     status: 'warn',
                     message: 'Global setup not configured',
-                    details: 'Add globalSetup to playwright.config.tc.ts'
+                    details: 'Add globalSetup to playwright.config.ai.ts'
                 });
             }
 
-            if (configContent.includes('global-teardown-tc.ts')) {
+            if (configContent.includes('global-teardown-ai.ts')) {
                 results.push({
                     category: 'Configuration',
                     name: 'Global Teardown',
@@ -334,7 +341,7 @@ function checkConfiguration(): HealthCheckResult[] {
                     name: 'Global Teardown',
                     status: 'warn',
                     message: 'Global teardown not configured',
-                    details: 'Add globalTeardown to playwright.config.tc.ts'
+                    details: 'Add globalTeardown to playwright.config.ai.ts'
                 });
             }
 
@@ -344,17 +351,22 @@ function checkConfiguration(): HealthCheckResult[] {
                 name: 'Playwright Config',
                 status: 'fail',
                 message: 'Error reading configuration',
-                details: 'Check playwright.config.tc.ts syntax'
+                details: 'Check playwright.config.ai.ts syntax'
             });
         }
     }
 
     // Check test data files
     const testDataFiles = [
-        'web-test-cases.csv',
-        'mobile-test-cases.csv',
-        'web-steps.pseudo',
-        'mobile-steps.pseudo'
+        'web_test_cases.csv',
+        'api_test_cases.csv',
+        'mobile_headspin_test_cases.csv',
+        'mobile_wdio_test_cases.csv',
+        'web_steps.pseudo',
+        'mobile_steps.pseudo',
+        'mobile_wdio_test_cases.pseudo',
+        'TC001_purchase_scenario.pseudo',
+        'TC002_login_flow.pseudo'
     ];
 
     let testDataCount = 0;

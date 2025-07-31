@@ -136,7 +136,7 @@ class E2ECoordinator:
             "parallel_efficiency": 0.0
         }
 
-        # AI models for decision making
+        # AI models for decision-making
         self.priority_model = None
         self.retry_predictor = None
 
@@ -170,7 +170,7 @@ class E2ECoordinator:
                 },
                 "wdio": {
                     "command": "npx wdio run",
-                    "config_file": "wdio.conf.ts",
+                    "config_file": "wdio.conf.ai.sim.ts",
                     "report_format": "json"
                 }
             },

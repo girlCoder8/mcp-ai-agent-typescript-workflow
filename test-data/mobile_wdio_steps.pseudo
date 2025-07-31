@@ -1,0 +1,24 @@
+Test Case: TC0002 - Login Flow: Valid and Invalid Credentials
+
+Preconditions:
+- User 'admin' exists in the system.
+- Application is installed on the device.
+
+Steps:
+1. [Launch App]
+   - Open the mobile application on the device.
+
+2. [Attempt Valid Login]
+   - Input username as "admin".
+   - Input password as "secure_password".
+   - Tap the Login button.
+   - Assert: Dashboard screen is displayed.
+
+3. [Logout]
+   - Tap on the Logout button (test the invalid flow).
+
+4. [Attempt Invalid Login]
+   - Input username as "admin".
+   - Input password as "wrong_password".
+   - Tap the Login button.
+   - Assert: Error message displays "Invalid credentials" or similar.

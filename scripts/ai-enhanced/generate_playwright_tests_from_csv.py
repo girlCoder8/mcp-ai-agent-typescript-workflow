@@ -6,20 +6,17 @@ from typing import Dict, List, Any
 from pathlib import Path
 
 # --- Configuration ---
-MANUAL_CSV_PATH = "test-data/manual_test_cases.csv"
-MOBILE_WDIO_CSV_PATH = "test-data/mobile_test_cases.csv"
-MOBILE_HEADSPIN_CSV_PATH = "test-data/mobile_headspin_test_cases.csv"
-OUT_DIR = "tests"
+MANUAL_CSV_PATH = "./test-data/new_manual_test_cases.csv"
+API_CSV_PATH = "./test-data/api_test_cases.csv"
+OUT_DIR = "./test-data"
 WEB_OUT_DIR = os.path.join(OUT_DIR, "web")
-MOBILE_WDIO_OUT_DIR = os.path.join(OUT_DIR, "mobile/wdio")
-MOBILE_HEADSPIN_OUT_DIR = os.path.join(OUT_DIR, "mobile/headspin")
+API_OUT_DIR = os.path.join(OUT_DIR, "api")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 MODEL = "gpt-4o"  # Use your preferred OpenAI model
 
 # Create output directories
 os.makedirs(WEB_OUT_DIR, exist_ok=True)
-os.makedirs(MOBILE_WDIO_OUT_DIR, exist_ok=True)
-os.makedirs(MOBILE_HEADSPIN_OUT_DIR, exist_ok=True)  # FIXED: use output dir not file
+os.makedirs(API_OUT_DIR, exist_ok=True)
 
 openai.api_key = OPENAI_KEY
 
@@ -41,9 +38,9 @@ The test should be suitable for web browsers (Chrome, Firefox, Safari).
 Include proper page object patterns where beneficial.
 """
 
-MOBILE_BASE_PROMPT = """
-You are an expert Playwright automation engineer specializing in MOBILE testing.
-Given the following mobile test case:
+API_BASE_PROMPT = """
+You are an expert Playwright automation engineer specializing in API testing.
+Given the following api test case:
 Test Case ID: {TestCaseID}
 Test Case Name: {TestCaseName}
 Objective: {Objective}
@@ -52,12 +49,12 @@ Test Steps: {TestCaseSteps}
 Component: {Component}
 Comments: {Comments}
 
-Please generate a Playwright test in idiomatic TypeScript optimized for MOBILE devices.
-- Use mobile-friendly selectors and interactions
-- Include proper touch/tap interactions
-- Handle mobile-specific waits and viewports
-- Consider mobile UI patterns and responsive design
-- Use appropriate mobile assertions
+Please generate a Playwright test in idiomatic TypeScript optimized for APIs.
+- Place files in the api directory.
+- Use descriptive names for test files.
+- Each test should verify one specific behavior or endpoint.
+- Validate all status code assertions for 200, 404, and 500.
+- Include response body assertions.
 """
 
 def load_manual_test_cases() -> List[Dict[str, Any]]:
@@ -84,10 +81,10 @@ def load_manual_test_cases() -> List[Dict[str, Any]]:
     print(f"✅ Loaded {len(test_cases)} manual test cases")
     return test_cases
 
-def parse_wdio_mobile_cases(filepath: str) -> List[Dict[str, Any]]:
-    """Parse WDIO mobile test cases from text or CSV file"""
+def parse_api_cases(filepath: str) -> List[Dict[str, Any]]:
+    """Parse API test cases from a text or CSV file"""
     if not os.path.exists(filepath):
-        print(f"⚠️  Mobile WDIO test cases file not found: {filepath}")
+        print(f"⚠️  API test cases file not found: {filepath}")
         return []
 
     test_cases = []
@@ -102,9 +99,9 @@ def parse_wdio_mobile_cases(filepath: str) -> List[Dict[str, Any]]:
                     'Objective': row.get('Objective', '').strip(),
                     'Precondition': row.get('Precondition', '').strip(),
                     'TestCaseSteps': row.get('TestCaseSteps', row.get('Steps', '')).strip(),
-                    'Component': row.get('Component', '').strip() or 'Mobile',
+                    'Component': row.get('Component', '').strip() or 'API',
                     'Comments': row.get('Comments', '').strip(),
-                    'Type': 'mobile_wdio'
+                    'Type': 'api'
                 })
         else:
             with open(filepath, 'r', encoding='utf-8') as f:
@@ -118,60 +115,29 @@ def parse_wdio_mobile_cases(filepath: str) -> List[Dict[str, Any]]:
                 test_cases.append({
                     'TestCaseID': test_case_match.group(1),
                     'TestCaseName': test_case_match.group(2).strip(),
-                    'Objective': 'Mobile E2E test for authenticated wine purchase',
+                    'Objective': 'API E2E test for authenticated wine purchase',
                     'Precondition': preconditions_match.group(1).strip() if preconditions_match else '',
                     'TestCaseSteps': steps_match.group(1).strip(),
-                    'Component': 'Mobile',
-                    'Comments': 'Generated from mobile test cases',
-                    'Type': 'mobile_wdio'
+                    'Component': 'API',
+                    'Comments': 'Generated from api test cases',
+                    'Type': 'api'
                 })
-        print(f"✅ Loaded {len(test_cases)} WDIO mobile test cases")
+        print(f"✅ Loaded {len(test_cases)} API test cases")
     except Exception as e:
-        print(f"❌ Error loading WDIO mobile test cases: {e}")
+        print(f"❌ Error loading API test cases: {e}")
 
     return test_cases
 
-def parse_headspin_mobile_cases(filepath: str) -> List[Dict[str, Any]]:
-    """Parse HeadSpin mobile test cases from CSV file"""
-    if not os.path.exists(filepath):
-        print(f"⚠️  Mobile HeadSpin test cases file not found: {filepath}")
-        return []
-
-    test_cases = []
-    try:
-        df = pd.read_csv(filepath, dtype=str).fillna('')
-        for idx, row in df.iterrows():
-            test_cases.append({
-                'TestCaseID': row.get('TestCaseID', row.get('ID', '')).strip(),
-                'TestCaseName': row.get('TestCaseName', row.get('Name', '')).strip(),
-                'Objective': row.get('Objective', '').strip(),
-                'Precondition': row.get('Precondition', '').strip(),
-                'TestCaseSteps': row.get('TestCaseSteps', row.get('Steps', '')).strip(),
-                'Component': row.get('Component', '').strip() or 'Mobile',
-                'Comments': row.get('Comments', '').strip(),
-                'Type': 'mobile_headspin'
-            })
-        print(f"✅ Loaded {len(test_cases)} HeadSpin mobile test cases")
-    except Exception as e:
-        print(f"❌ Error loading HeadSpin mobile test cases: {e}")
-
-    return test_cases
-
-def load_mobile_test_cases(source='wdio') -> List[Dict[str, Any]]:
+def load_api_test_cases(source='api') -> List[Dict[str, Any]]:
     """
-    Load mobile test cases from the selected CSV (or text) file.
-    :param source: 'wdio' or 'headspin', or 'all' for both.
+    Load api test cases from the selected CSV (or text) file.
+    :param source: 'Api' or 'all' for both.
     """
     cases = []
-    if source == 'wdio':
-        cases = parse_wdio_mobile_cases(MOBILE_WDIO_CSV_PATH)
-    elif source == 'headspin':
-        cases = parse_headspin_mobile_cases(MOBILE_HEADSPIN_CSV_PATH)
-    elif source == 'all':
-        cases = parse_wdio_mobile_cases(MOBILE_WDIO_CSV_PATH)
-        cases += parse_headspin_mobile_cases(MOBILE_HEADSPIN_CSV_PATH)
+    if source == 'api':
+        cases = parse_api_cases(API_CSV_PATH)
     else:
-        print(f"❌ Unknown source {source}, expected 'wdio', 'headspin', or 'all'.")
+        print(f"❌ Unknown source {source}, expected 'api' ")
     return cases
 
 def make_filename(test_case: Dict[str, Any]) -> str:
@@ -197,8 +163,8 @@ def generate_test(test_case: Dict[str, Any]) -> str | None:
     """Generate Playwright test code using OpenAI"""
 
     # Choose a prompt based on a test type
-    if test_case.get('Type', 'web').startswith('mobile'):
-        prompt = MOBILE_BASE_PROMPT
+    if test_case.get('Type', 'web').startswith('api'):
+        prompt = API_BASE_PROMPT
     else:
         prompt = WEB_BASE_PROMPT
 
@@ -233,15 +199,13 @@ def generate_test(test_case: Dict[str, Any]) -> str | None:
         print(f"❌ Error generating test for {test_case.get('TestCaseName', 'Unknown')}: {e}")
         return None
 
-def save_test(test_case: Dict[str, Any], code: str) -> str:
+def save_test(test_case: Dict[str, Any], code: str) -> str | type[str]:
     """Save the generated test code to the appropriate directory"""
     filename = make_filename(test_case)
 
     # Choose an output directory based on a test type
     if test_case.get('Type') == 'auto-gen-ai-tests/headspin':
-        output_path = os.path.join(MOBILE_HEADSPIN_OUT_DIR, filename)
-    elif test_case.get('Type') == 'auto-gen-ai-tests/wdio':
-        output_path = os.path.join(MOBILE_WDIO_OUT_DIR, filename)
+        output_path = os.path.join(API_OUT_DIR, filename)
     else:
         output_path = os.path.join(WEB_OUT_DIR, filename)
 
@@ -251,7 +215,7 @@ def save_test(test_case: Dict[str, Any], code: str) -> str:
         return output_path
     except Exception as e:
         print(f"❌ Error saving test {filename}: {e}")
-        return None
+        return str
 
 def main():
     """Main execution function"""
@@ -260,9 +224,7 @@ def main():
     # Load all test cases
     all_test_cases: List[Dict[str, Any]] = []
     all_test_cases.extend(load_manual_test_cases())
-    # Switching between WDIO, HeadSpin, or both
-    all_test_cases.extend(load_mobile_test_cases('wdio'))
-    all_test_cases.extend(load_mobile_test_cases('headspin'))
+    all_test_cases.extend(load_api_test_cases('api'))
 
     if not all_test_cases:
         print("❌ No test cases found to generate!")
@@ -297,8 +259,7 @@ def main():
     print(f"   ❌ Failed: {failed_count}")
     print(f"   📁 Output directories:")
     print(f"      - Web tests: {WEB_OUT_DIR}")
-    print(f"      - Mobile WDIO tests: {MOBILE_WDIO_OUT_DIR}")
-    print(f"      - Mobile HeadSpin tests: {MOBILE_HEADSPIN_OUT_DIR}")
+    print(f"      - API tests: {API_OUT_DIR}")
 
     if generated_count > 0:
         print(f"\n🎉 Test generation completed! Run with: npx playwright test")

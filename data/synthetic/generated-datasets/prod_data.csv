@@ -1,0 +1,10 @@
+customer_id,transaction_id,amount,date,payment_method,item_count,region
+C10045,T90010,59.99,2024-07-01,Credit Card,1,East
+C10002,T90011,12.49,2024-07-01,PayPal,2,Central
+C10130,T90012,190.00,2024-07-02,Debit Card,4,West
+C10130,T90013,24.99,2024-07-02,Credit Card,1,West
+C10088,T90014,77.50,2024-07-02,Visa,3,North
+C10456,T90015,33.20,2024-07-03,MasterCard,2,East
+C10002,T90016,5.99,2024-07-03,PayPal,1,Central
+C10500,T90017,251.00,2024-07-04,Credit Card,5,South
+C10300,T90018,40.25,2024-07-04,Amex,1,East

@@ -1,0 +1,631 @@
+# connectors.yaml - Harness Connectors Configuration
+connectors:
+  # Source Code Management
+  - connector:
+      name: GitHub Connector
+      identifier: github_connector
+      description: GitHub repository connector for AI test automation
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Github
+      spec:
+        url: https://github.com/sgwshub/ci-cd-mcp-pipeline
+        validationRepo: ci-cd-mcp-pipeline
+        authentication:
+          type: Http
+          spec:
+            type: UsernameToken
+            spec:
+              username: github-username
+              tokenRef: github_token
+        apiAccess:
+          type: Token
+          spec:
+            tokenRef: github_api_token
+        executeOnDelegate: true
+        gitSync:
+          enabled: true
+          customCommitAttributes:
+            authorName: Harness AI Pipeline
+            authorEmail: ai-pipeline@sgws.com
+
+  # Container Registry
+  - connector:
+      name: Docker Hub Connector
+      identifier: docker_hub_connector
+      description: Docker Hub connector for container images
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: DockerRegistry
+      spec:
+        dockerRegistryUrl: https://index.docker.io/v1/
+        providerType: DockerHub
+        auth:
+          type: UsernamePassword
+          spec:
+            username: docker-username
+            passwordRef: docker_password
+        executeOnDelegate: true
+
+  # Cloud Providers
+  - connector:
+      name: AWS Connector
+      identifier: aws_connector
+      description: AWS connector for infrastructure deployment
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Aws
+      spec:
+        credential:
+          type: ManualConfig
+          spec:
+            accessKey: aws_access_key
+            secretKeyRef: aws_secret_key
+        region: us-east-1
+        executeOnDelegate: true
+
+  - connector:
+      name: Azure Connector
+      identifier: azure_connector
+      description: Azure connector for multi-cloud deployment
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Azure
+      spec:
+        credential:
+          type: ManualConfig
+          spec:
+            applicationId: azure_app_id
+            tenantId: azure_tenant_id
+            auth:
+              type: Secret
+              spec:
+                secretRef: azure_secret
+        environment: AZURE
+        executeOnDelegate: true
+
+  # Kubernetes Cluster
+  - connector:
+      name: Kubernetes Cluster
+      identifier: k8s_connector
+      description: Kubernetes cluster for AI agents deployment
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: K8sCluster
+      spec:
+        credential:
+          type: ManualConfig
+          spec:
+            masterUrl: https://kubernetes-api.company.com
+            auth:
+              type: ServiceAccount
+              spec:
+                serviceAccountTokenRef: k8s_service_account_token
+        executeOnDelegate: false
+
+  # Monitoring & Observability
+  - connector:
+      name: Prometheus Connector
+      identifier: prometheus_connector
+      description: Prometheus monitoring connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Prometheus
+      spec:
+        url: http://prometheus.monitoring.svc.cluster.local:9090
+        headers:
+          - key: Authorization
+            valueEncrypted: true
+            encryptedValueRef: prometheus_auth_token
+
+  - connector:
+      name: Grafana Connector
+      identifier: grafana_connector
+      description: Grafana dashboard connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Http
+      spec:
+        url: https://grafana.company.com
+        headers:
+          - key: Authorization
+            valueEncrypted: true
+            encryptedValueRef: grafana_api_key
+
+  - connector:
+      name: Datadog Connector
+      identifier: datadog_connector
+      description: Datadog APM and logging connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Datadog
+      spec:
+        url: https://api.datadoghq.com
+        apiKeyRef: datadog_api_key
+        applicationKeyRef: datadog_app_key
+
+  - connector:
+      name: Splunk Connector
+      identifier: splunk_connector
+      description: Splunk logging and analytics connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Splunk
+      spec:
+        splunkUrl: https://splunk.company.com:8089
+        username: splunk_user
+        passwordRef: splunk_password
+
+  # Quality & Security Tools
+  - connector:
+      name: SonarQube Connector
+      identifier: sonarqube_connector
+      description: SonarQube code quality connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Sonarqube
+      spec:
+        sonarQubeUrl: https://sonarqube.company.com
+        authType: UserPassword
+        username: sonar_user
+        passwordRef: sonar_token
+
+  # Issue Tracking & Collaboration
+  - connector:
+      name: JIRA Connector
+      identifier: jira_connector
+      description: JIRA issue tracking connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Jira
+      spec:
+        jiraUrl: https://company.atlassian.net
+        username: jira_user
+        passwordRef: jira_api_token
+
+  - connector:
+      name: Slack Connector
+      identifier: slack_connector
+      description: Slack notifications connector
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: Slack
+      spec:
+        slackUrl: https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+        webhookUrlRef: slack_webhook_url
+
+---
+# secrets.yaml - Harness Secrets Configuration
+secrets:
+  # AI Model API Keys
+  - secret:
+      name: OpenAI API Key
+      identifier: openai_api_key
+      description: OpenAI GPT models API key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+        value: <+secrets.getValue("account.openai_api_key")>
+
+  - secret:
+      name: Anthropic API Key
+      identifier: anthropic_api_key
+      description: Anthropic Claude models API key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+        value: <+secrets.getValue("account.anthropic_api_key")>
+
+  # Cloud Provider Credentials
+  - secret:
+      name: AWS Access Key
+      identifier: aws_access_key
+      description: AWS access key for infrastructure
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.aws_access_key")>
+
+  - secret:
+      name: AWS Secret Key
+      identifier: aws_secret_key
+      description: AWS secret key for infrastructure
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.aws_secret_key")>
+
+  - secret:
+      name: Azure Service Principal Secret
+      identifier: azure_secret
+      description: Azure service principal secret
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.azure_secret")>
+
+  - secret:
+      name: GCP Service Account Key
+      identifier: gcp_service_account_key
+      description: GCP service account JSON key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretFile
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+
+  # Kubernetes Configuration
+  - secret:
+      name: Kubernetes Config
+      identifier: k8s_config
+      description: Kubernetes cluster configuration
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretFile
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+
+  - secret:
+      name: Kubernetes Service Account Token
+      identifier: k8s_service_account_token
+      description: Kubernetes service account token
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.k8s_token")>
+
+  # Monitoring & Observability
+  - secret:
+      name: Prometheus Auth Token
+      identifier: prometheus_auth_token
+      description: Prometheus authentication token
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  - secret:
+      name: Grafana API Key
+      identifier: grafana_api_key
+      description: Grafana API key for dashboard management
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  - secret:
+      name: Datadog API Key
+      identifier: datadog_api_key
+      description: Datadog API key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.datadog_api_key")>
+
+  - secret:
+      name: Datadog Application Key
+      identifier: datadog_app_key
+      description: Datadog application key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.datadog_app_key")>
+
+  # Quality & Security Tools
+  - secret:
+      name: SonarQube Token
+      identifier: sonar_token
+      description: SonarQube authentication token
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  - secret:
+      name: Security Scanner Key
+      identifier: security_scanner_key
+      description: Security scanner API key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  # Issue Tracking & Collaboration
+  - secret:
+      name: JIRA API Token
+      identifier: jira_token
+      description: JIRA API token for automation
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  - secret:
+      name: JIRA URL
+      identifier: jira_url
+      description: JIRA instance URL
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+        value: "https://company.atlassian.net"
+
+  - secret:
+      name: Slack Webhook URL
+      identifier: slack_webhook_url
+      description: Slack webhook URL for notifications
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  # Container Registry
+  - secret:
+      name: Docker Hub Password
+      identifier: docker_password
+      description: Docker Hub registry password
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.docker_password")>
+
+  # Source Control
+  - secret:
+      name: GitHub Token
+      identifier: github_token
+      description: GitHub personal access token
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.github_token")>
+
+  - secret:
+      name: GitHub API Token
+      identifier: github_api_token
+      description: GitHub API token for webhook management
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Reference
+        default: <+secrets.getValue("account.github_api_token")>
+
+  # Chaos Engineering
+  - secret:
+      name: Chaos Monkey Key
+      identifier: chaos_monkey_key
+      description: Chaos Monkey API key for fault injection
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  # Analytics & Telemetry
+  - secret:
+      name: Analytics API Key
+      identifier: analytics_api_key
+      description: Analytics platform API key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  - secret:
+      name: Monitoring Endpoint
+      identifier: monitoring_endpoint
+      description: Custom monitoring endpoint URL
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+  # GDPR Compliance
+  - secret:
+      name: GDPR Compliance Key
+      identifier: gdpr_compliance_key
+      description: GDPR compliance validation key
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      type: SecretText
+      spec:
+        secretManagerIdentifier: harnessSecretManager
+        valueType: Inline
+
+---
+# service-environment.yaml - Harness Services and Environments
+service:
+  name: AI Test Automation Service
+  identifier: ai_test_service
+  description: AI-enhanced test automation service
+  orgIdentifier: default
+  projectIdentifier: ai_testing_project
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: ai_agents_manifests
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: github_connector
+                  gitFetchType: Branch
+                  paths:
+                    - k8s/ai-agents/
+                  repoName: ci-cd-mcp-pipeline
+                  branch: main
+              valuesPaths:
+                - k8s/ai-agents/values.yaml
+        - manifest:
+            identifier: monitoring_manifests
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: github_connector
+                  gitFetchType: Branch
+                  paths:
+                    - k8s/monitoring/
+                  repoName: ci-cd-mcp-pipeline
+                  branch: main
+      artifacts:
+        primary:
+          primaryArtifactRef: ai_pipeline_image
+          sources:
+            - spec:
+                connectorRef: docker_hub_connector
+                imagePath: company/ai-test-automation
+                tag: <+input>
+              identifier: ai_pipeline_image
+              type: DockerRegistry
+
+---
+# environments.yaml
+environments:
+  - environment:
+      name: Development
+      identifier: development
+      description: Development environment for AI testing
+      type: PreProduction
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      tags:
+        environment: dev
+        ai_enabled: true
+      variables:
+        - name: AI_MODEL_BUDGET
+          type: String
+          value: "1000"
+        - name: CHAOS_ENABLED
+          type: String
+          value: "false"
+        - name: MONITORING_LEVEL
+          type: String
+          value: "basic"
+
+  - environment:
+      name: Staging
+      identifier: staging
+      description: Staging environment for AI testing validation
+      type: PreProduction
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      tags:
+        environment: staging
+        ai_enabled: true
+      variables:
+        - name: AI_MODEL_BUDGET
+          type: String
+          value: "5000"
+        - name: CHAOS_ENABLED
+          type: String
+          value: "true"
+        - name: MONITORING_LEVEL
+          type: String
+          value: "enhanced"
+
+  - environment:
+      name: Production
+      identifier: production
+      description: Production environment for AI testing
+      type: Production
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      tags:
+        environment: prod
+        ai_enabled: true
+      variables:
+        - name: AI_MODEL_BUDGET
+          type: String
+          value: "10000"
+        - name: CHAOS_ENABLED
+          type: String
+          value: "true"
+        - name: MONITORING_LEVEL
+          type: String
+          value: "comprehensive"
+
+---
+# infrastructure-definitions.yaml
+infrastructureDefinitions:
+  - infrastructureDefinition:
+      name: AI Testing K8s Infrastructure
+      identifier: ai_testing_k8s_infra
+      description: Kubernetes infrastructure for AI testing workloads
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      environmentRef: production
+      deploymentType: Kubernetes
+      type: KubernetesDirect
+      spec:
+        connectorRef: k8s_connector
+        namespace: ai-testing
+        releaseName: ai-test-automation
+
+  - infrastructureDefinition:
+      name: Development K8s Infrastructure
+      identifier: dev_k8s_infra
+      description: Development Kubernetes infrastructure
+      orgIdentifier: default
+      projectIdentifier: ai_testing_project
+      environmentRef: development
+      deploymentType: Kubernetes
+      type: KubernetesDirect
+      spec:
+        connectorRef: k8s_connector
+        namespace: ai-testing-dev
+        releaseName: ai-test-automation-dev

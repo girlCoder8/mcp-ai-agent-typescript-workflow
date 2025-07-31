@@ -30,7 +30,7 @@
     "// =====================================================================": "",
     "// ======== Test Case Setup, Validate and Report =======================": "",
     "// === Test Case Setup and Validation ===": "",
-    "setup:files": "npx ts-node scripts/testData/setup-test-data.ts",
+    "setup:files": "npx ts-node scripts/testData/setup-web-and-api-test-data.ts",
     "data:validate": "npx ts-node scripts/validateTestData/validate-test-data.ts",
     "health:check": "npx ts-node scripts/healthCheck/health-check.ts",
     "// === Test Generation Script ===": "",

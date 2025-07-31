@@ -1,0 +1,325 @@
+# trigger-webhook.yaml
+trigger:
+  name: AI Test Automation Trigger
+  identifier: ai_test_trigger
+  enabled: true
+  orgIdentifier: default
+  projectIdentifier: ai_testing_project
+  pipelineIdentifier: ai_test_automation_pipeline
+  source:
+    type: Webhook
+    spec:
+      type: Github
+      spec:
+        type: Push
+        spec:
+          connectorRef: github_connector
+          autoAbortPreviousExecutions: true
+          payloadConditions:
+            - key: targetBranch
+              operator: Equals
+              value: main
+            - key: targetBranch
+              operator: Equals
+              value: develop
+          headerConditions: []
+          actions: []
+  inputYaml: |
+    pipeline:
+      identifier: ai_test_automation_pipeline
+      variables:
+        - name: AI_MODEL_VERSION
+          type: String
+          value: <+trigger.payload.commits[0].message.contains("[gpt-4]") ? "gpt-4" : "gpt-3.5-turbo">
+        - name: CHAOS_INTENSITY  
+          type: String
+          value: <+trigger.payload.commits[0].message.contains("[chaos-high]") ? "high" : "medium">
+        - name: SYNTHETIC_DATA_SIZE
+          type: String
+          value: <+trigger.targetBranch> == "main" ? "5000" : "1000"
+
+---
+# input-set-development.yaml
+inputSet:
+  identifier: development_input_set
+  name: Development Environment Input Set
+  orgIdentifier: default
+  projectIdentifier: ai_testing_project
+  pipelineIdentifier: ai_test_automation_pipeline
+  inputSetYaml: |
+    pipeline:
+      variables:
+        - name: AI_MODEL_VERSION
+          type: String
+          value: "gpt-3.5-turbo"
+        - name: CHAOS_INTENSITY
+          type: String
+          value: "low"
+        - name: SYNTHETIC_DATA_SIZE
+          type: String
+          value: "500"
+        - name: PARALLEL_EXECUTION
+          type: String
+          value: "true"
+      stages:
+        - stage:
+            identifier: chaos_engineering
+            when:
+              condition: "false"  # Skip chaos in development
+
+---
+# input-set-production.yaml
+inputSet:
+  identifier: production_input_set
+  name: Production Environment Input Set
+  orgIdentifier: default
+  projectIdentifier: ai_testing_project
+  pipelineIdentifier: ai_test_automation_pipeline
+  inputSetYaml: |
+    pipeline:
+      variables:
+        - name: AI_MODEL_VERSION
+          type: String
+          value: "gpt-4"
+        - name: CHAOS_INTENSITY
+          type: String
+          value: "high"
+        - name: SYNTHETIC_DATA_SIZE
+          type: String
+          value: "10000"
+        - name: PARALLEL_EXECUTION
+          type: String
+          value: "true"
+      stages:
+        - stage:
+            identifier: infrastructure_deployment
+            when:
+              condition: "true"  # Enable infrastructure deployment
+
+---
+# template-ai-agent-step.yaml
+template:
+  name: AI Agent Execution Template
+  identifier: ai_agent_execution_template
+  versionLabel: v1
+  type: Step
+  projectIdentifier: ai_testing_project
+  orgIdentifier: default
+  spec:
+    type: Run
+    spec:
+      connectorRef: <+input>
+      image: <+input>
+      shell: Sh
+      command: |
+        # Install dependencies
+        if [ -f "package.json" ]; then
+          npm install
+        fi
+        
+        if [ -f "requirements.txt" ]; then
+          pip install -r requirements.txt
+        fi
+        
+        # Set up AI model configuration
+        export AI_CONFIG_PATH="src/config/ai-models-config.json"
+        export MODEL_VERSION="<+pipeline.variables.AI_MODEL_VERSION>"
+        
+        # Execute the AI agent
+        <+input.command>
+        
+        # Capture metrics
+        if [ -f "metrics.json" ]; then
+          echo "AI Agent Metrics:"
+          cat metrics.json
+        fi
+      envVariables:
+        OPENAI_API_KEY: <+secrets.getValue("openai_api_key")>
+        ANTHROPIC_API_KEY: <+secrets.getValue("anthropic_api_key")>
+        MODEL_VERSION: <+pipeline.variables.AI_MODEL_VERSION>
+      resources:
+        limits:
+          memory: 2Gi
+          cpu: 1000m
+    timeout: 30m
+
+---
+# pipeline-template-ai-testing.yaml
+template:
+  name: AI Testing Pipeline Template
+  identifier: ai_testing_pipeline_template
+  versionLabel: v1
+  type: Pipeline
+  projectIdentifier: ai_testing_project
+  orgIdentifier: default
+  spec:
+    stages:
+      - stage:
+          name: <+input>
+          identifier: <+input>
+          type: CI
+          spec:
+            cloneCodebase: true
+            platform:
+              os: Linux
+              arch: Amd64
+            runtime:
+              type: Cloud
+              spec: {}
+            execution:
+              steps:
+                - step:
+                    name: AI Agent Setup
+                    identifier: ai_agent_setup
+                    template:
+                      templateRef: ai_agent_execution_template
+                      versionLabel: v1
+                      templateInputs:
+                        spec:
+                          connectorRef: docker_hub_connector
+                          image: <+input>
+                          command: <+input>
+
+---
+# monitored-service.yaml
+monitoredService:
+  name: AI Test Automation Service
+  identifier: ai_test_automation_service
+  type: Application
+  description: Monitoring for AI-enhanced test automation pipeline
+  serviceRef: ai_test_service
+  environmentRef: production
+  sources:
+    healthSources:
+      - name: Prometheus Health Source
+        identifier: prometheus_health
+        type: Prometheus
+        spec:
+          connectorRef: prometheus_connector
+          metricDefinitions:
+            - identifier: ai_model_latency
+              metricName: AI Model Response Latency
+              query: avg(ai_model_response_time_seconds)
+              groupName: Performance
+              sli:
+                enabled: true
+            - identifier: test_execution_success_rate
+              metricName: Test Execution Success Rate
+              query: (sum(test_executions_success) / sum(test_executions_total)) * 100
+              groupName: Reliability
+              sli:
+                enabled: true
+            - identifier: chaos_recovery_time
+              metricName: Chaos Recovery Time
+              query: avg(chaos_recovery_time_seconds)
+              groupName: Resilience
+              sli:
+                enabled: true
+    changeSources:
+      - name: Harness CD
+        identifier: harness_cd
+        enabled: true
+        type: HarnessCD
+        category: Deployment
+  dependencies:
+    - monitoredServiceIdentifier: kubernetes_cluster
+      type: Application
+    - monitoredServiceIdentifier: ai_model_service
+      type: Application
+
+---
+# slo-configuration.yaml
+serviceLevelObjective:
+  name: AI Test Automation SLO
+  identifier: ai_test_automation_slo
+  description: Service Level Objectives for AI-enhanced testing pipeline
+  tags: {}
+  userJourneyRefs:
+    - ai_test_execution_journey
+  monitoredServiceRef: ai_test_automation_service
+  healthSourceRef: prometheus_health
+  serviceLevelIndicators:
+    - name: AI Model Response Time
+      identifier: ai_model_response_time_sli
+      metric: ai_model_latency
+      spec:
+        type: Threshold
+        spec:
+          metric1: ai_model_latency
+          thresholdValue: 2.0
+          thresholdType: LessThan
+    - name: Test Success Rate
+      identifier: test_success_rate_sli
+      metric: test_execution_success_rate
+      spec:
+        type: Threshold
+        spec:
+          metric1: test_execution_success_rate
+          thresholdValue: 95.0
+          thresholdType: GreaterThan
+  target:
+    type: Rolling
+    spec:
+      periodLength: 30d
+      spec:
+        type: Calender
+        spec:
+          workingHours:
+            timeZone: America/New_York
+            startTime: "09:00"
+            endTime: "17:00"
+            workingDays:
+              - MONDAY
+              - TUESDAY
+              - WEDNESDAY
+              - THURSDAY
+              - FRIDAY
+    sloTargetPercentage: 99.0
+  errorBudgetResetPolicy:
+    type: Monthly
+
+---
+# policy-governance.yaml
+policy:
+  name: AI Testing Pipeline Governance
+  identifier: ai_testing_governance_policy
+  orgIdentifier: default
+  projectIdentifier: ai_testing_project
+  enabled: true
+  policySpec:
+    type: Pipeline
+    spec:
+      rules:
+        - name: Require AI Code Review
+          spec:
+            type: Required
+            configuration:
+              stage:
+                identifier: ai_code_review
+                required: true
+        - name: Chaos Engineering Approval
+          spec:
+            type: Approval
+            configuration:
+              stage:
+                identifier: chaos_engineering
+                approvers:
+                  - chaos_engineering_team
+                  - platform_reliability_team
+        - name: Production Deployment Gate
+          spec:
+            type: Barrier
+            configuration:
+              stage:
+                identifier: infrastructure_deployment
+                conditions:
+                  - all_tests_passed: true
+                  - ai_rca_completed: true
+                  - no_critical_vulnerabilities: true
+        - name: AI Model Usage Limits
+          spec:
+            type: ResourceLimit
+            configuration:
+              limits:
+                ai_api_calls_per_hour: 1000
+                ai_model_tokens_per_execution: 50000

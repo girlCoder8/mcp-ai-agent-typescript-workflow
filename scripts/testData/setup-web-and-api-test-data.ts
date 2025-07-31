@@ -17,116 +17,14 @@ interface ParsedPseudoTest {
     comments: string;
 }
 
-function createMobilePseudoFiles(): void {
-    // Create sample mobile Headspin test case if file is empty or doesn't exist
-    const headspinFilePath = './test-data/mobile_headspin_test_cases.pseudo';
-    const headspinContent = `Test Case: TC0001 - Mobile App Performance Testing with Headspin
-
-Preconditions:
-- Mobile device is connected to Headspin platform.
-- Test application is installed on the device.
-- Network conditions are configured for testing.
-
-Steps:
-1. [Launch Mobile App with Performance Monitoring]
-   - Initialize Headspin performance monitoring session.
-   - Launch the mobile application on the device.
-   - Start CPU, memory, and network monitoring.
-
-2. [Navigate Through App Screens]
-   - Navigate to the main dashboard screen.
-   - Measure screen load time and responsiveness.
-   - Navigate to the product catalog screen.
-   - Scroll through product list and measure frame rate.
-
-3. [Perform User Actions with Monitoring]
-   - Tap on a product to view details.
-   - Measure image load times and UI responsiveness.
-   - Add product to cart with performance tracking.
-   - Monitor memory usage during cart operations.
-
-4. [Network Performance Testing]
-   - Simulate different network conditions (3G, 4G, WiFi).
-   - Test app behavior under poor network conditions.
-   - Monitor API response times and data usage.
-
-5. [Performance Assertions]
-   - Assert: App launch time is under 3 seconds.
-   - Assert: Screen transitions are under 1 second.
-   - Assert: Memory usage stays below 200MB.
-   - Assert: No ANR (Application Not Responding) events occur.`;
-
-    const wdioFilePath = './test-data/mobile_wdio_test_cases.pseudo';
-    const wdioContent = `Test Case: TC0001 - Mobile App Automation with WebDriverIO
-
-Preconditions:
-- WebDriverIO is configured for mobile testing.
-- Mobile device/emulator is connected and accessible.
-- Test application is installed and ready for testing.
-
-Steps:
-1. [Initialize Mobile Session]
-   - Start WebDriverIO mobile session for Android/iOS.
-   - Launch the mobile application.
-   - Verify app is loaded successfully.
-
-2. [Mobile Login Flow]
-   - Locate username field using mobile selector strategy.
-   - Enter valid credentials: "mobile_user" and "test_password".
-   - Tap the login button using touch actions.
-   - Assert: User is navigated to home screen.
-
-3. [Mobile Navigation Testing]
-   - Test swipe gestures for navigation.
-   - Tap on hamburger menu to open side navigation.
-   - Navigate through different app sections.
-   - Test back button functionality.
-
-4. [Mobile Form Interactions]
-   - Navigate to contact/feedback form.
-   - Fill out form fields using mobile keyboard.
-   - Test form validation with invalid inputs.
-   - Submit form and verify success message.
-
-5. [Mobile-Specific Features]
-   - Test device orientation changes (portrait/landscape).
-   - Test app behavior during phone calls/notifications.
-   - Verify touch gestures: tap, long press, swipe, pinch.
-   - Test app resume after being backgrounded.
-
-6. [Mobile Assertions]
-   - Assert: All UI elements are properly sized for mobile.
-   - Assert: Touch targets meet minimum size requirements.
-   - Assert: App responds correctly to device rotation.
-   - Assert: No crashes or freezes during testing session.`;
-
-    // Write a Headspin file if it doesn't exist or is empty
-    if (!fs.existsSync(headspinFilePath) || fs.readFileSync(headspinFilePath, 'utf8').trim().length === 0) {
-        fs.writeFileSync(headspinFilePath, headspinContent);
-        console.log(`✅ Created a mobile Headspin pseudo file: ${headspinFilePath}`);
-    }
-
-    // Write a WDIO file if it doesn't exist or is empty
-    if (!fs.existsSync(wdioFilePath) || fs.readFileSync(wdioFilePath, 'utf8').trim().length === 0) {
-        fs.writeFileSync(wdioFilePath, wdioContent);
-        console.log(`✅ Created a mobile WDIO pseudo file: ${wdioFilePath}`);
-    }
-}
-
 function parsePseudoFile(filePath: string): ParsedPseudoTest | null {
     try {
         if (!fs.existsSync(filePath)) {
-            console.log(`⚠️  Pseudocode file not found: ${filePath}`);
+            console.log(`⚠️  Pseudo file not found: ${filePath}`);
             return null;
         }
 
         const content = fs.readFileSync(filePath, 'utf8');
-
-        // Skip empty files
-        if (!content.trim()) {
-            console.log(`⚠️  Pseudocode file is empty: ${filePath}`);
-            return null;
-        }
 
         // Extract test case ID and name from the first line
         const testCaseMatch = content.match(/Test Case:\s*(TC\d+)\s*-\s*(.+)/);
@@ -157,12 +55,6 @@ function parsePseudoFile(filePath: string): ParsedPseudoTest | null {
         } else if (fileName.includes('web') || content.includes('wine') || content.includes('order')) {
             component = 'Web';
             objective = `Validate end-to-end purchase flow with authentication and payment processing`;
-        } else if (fileName.includes('headspin') || content.includes('Headspin') || content.includes('performance')) {
-            component = 'Mobile-Headspin';
-            objective = `Validate mobile application performance and user experience using Headspin monitoring`;
-        } else if (fileName.includes('wdio') || content.includes('WebDriverIO') || content.includes('mobile')) {
-            component = 'Mobile-WDIO';
-            objective = `Validate mobile application functionality using WebDriverIO automation framework`;
         }
 
         return {
@@ -187,7 +79,7 @@ function convertPseudoTestsToCSV(pseudoTests: ParsedPseudoTest[], isApiFormat: b
     let csvContent = '';
 
     if (isApiFormat) {
-        // API CSV format - convert all mobile tests to API format for automation
+        // API CSV format
         csvContent = 'TestCaseID,TestCaseName,Objective,Precondition,TestCaseSteps,Component,Comments\n';
         pseudoTests.forEach(test => {
             const escapedSteps = `"${test.steps.replace(/"/g, '""')}"`;
@@ -195,13 +87,7 @@ function convertPseudoTestsToCSV(pseudoTests: ParsedPseudoTest[], isApiFormat: b
             const escapedObjective = `"${test.objective.replace(/"/g, '""')}"`;
             const escapedComments = `"${test.comments.replace(/"/g, '""')}"`;
 
-            // Convert mobile components to API for test generation
-            let apiComponent = 'API';
-            if (test.component.includes('Mobile')) {
-                apiComponent = test.component; // Keep mobile designation for special handling
-            }
-
-            csvContent += `${test.testCaseId},${test.testCaseName},${escapedObjective},${escapedPrecondition},${escapedSteps},${apiComponent},${escapedComments}\n`;
+            csvContent += `${test.testCaseId},${test.testCaseName},${escapedObjective},${escapedPrecondition},${escapedSteps},API,${escapedComments}\n`;
         });
     } else {
         // Manual test cases CSV format
@@ -219,10 +105,10 @@ function convertPseudoTestsToCSV(pseudoTests: ParsedPseudoTest[], isApiFormat: b
     return csvContent;
 }
 
-export function setupTestData(): void {
+export function setupWebAndApiTestData(): void {
     const testDataDir = './test-data';
 
-    // Create a test-data directory
+    // Create test-data directory
     if (!fs.existsSync(testDataDir)) {
         fs.mkdirSync(testDataDir, { recursive: true });
         console.log('📁 Created test-data directory');
@@ -230,16 +116,11 @@ export function setupTestData(): void {
 
     // Parse .pseudo files if they exist
     const pseudoFiles = [
-        './test-data/web_steps.pseudo',
-        './test-data/mobile_wdio_steps.pseudo',
-        './test-data/mobile_headspin_test_cases.pseudo',
-        './test-data/mobile_wdio_test_cases.pseudo'
+        './web_steps.pseudo',
+        './mobile_wdio_steps.pseudo'
     ];
 
     const parsedPseudoTests: ParsedPseudoTest[] = [];
-
-    // Create sample mobile pseudo files if they don't exist or are empty
-    createMobilePseudoFiles();
 
     pseudoFiles.forEach(filePath => {
         const parsed = parsePseudoFile(filePath);
@@ -260,16 +141,11 @@ TC006,Password Reset Process,"1. Navigate to login page; 2. Click 'Forgot Passwo
 TC007,Profile Information Update,"1. Login to user account; 2. Navigate to profile page; 3. Update personal information; 4. Change profile picture; 5. Save changes; 6. Verify updates are reflected","User is logged in with existing profile","Validate user profile management capabilities",Web,User account management
 TC008,Wishlist Functionality,"1. Browse product catalog; 2. Add items to wishlist; 3. View wishlist page; 4. Move items from wishlist to cart; 5. Remove items from wishlist","User is logged in","Test wishlist feature for saving favorite products",Web,Product saving and organization`;
 
-    // Add pseudo-generated tests to manual test cases (for web and mobile tests)
-    const webAndMobilePseudoTests = parsedPseudoTests.filter(test =>
-        test.component === 'Web' ||
-        test.component === 'Mobile' ||
-        test.component === 'Mobile-Headspin' ||
-        test.component === 'Mobile-WDIO'
-    );
-    if (webAndMobilePseudoTests.length > 0) {
-        console.log(`📝 Adding ${webAndMobilePseudoTests.length} tests from pseudo files to manual test cases`);
-        const pseudoCsvContent = convertPseudoTestsToCSV(webAndMobilePseudoTests, false);
+    // Add pseudo-generated tests to manual test cases (for web tests)
+    const webPseudoTests = parsedPseudoTests.filter(test => test.component === 'Web' || test.component === 'Mobile');
+    if (webPseudoTests.length > 0) {
+        console.log(`📝 Adding ${webPseudoTests.length} tests from pseudo files to manual test cases`);
+        const pseudoCsvContent = convertPseudoTestsToCSV(webPseudoTests, false);
         if (pseudoCsvContent) {
             // Remove header from pseudo CSV content and append to manual test cases
             const pseudoRows = pseudoCsvContent.split('\n').slice(1).filter(row => row.trim());
@@ -341,14 +217,14 @@ TC_API_008,Inventory Management API,"Test product inventory operations","Admin p
 
     console.log('🎉 Test data setup completed!');
     console.log('📋 Files created:');
-    console.log(`   - Manual test cases CSV with ${manualTestCasesContent.split('\n').length - 1} test scenarios (including ${webAndMobilePseudoTests.length} from pseudo files)`);
+    console.log(`   - Manual test cases CSV with ${manualTestCasesContent.split('\n').length - 1} test scenarios (including ${webPseudoTests.length} from pseudo files)`);
     console.log(`   - API test cases CSV with ${apiTestCasesContent.split('\n').length - 1} test scenarios (including ${parsedPseudoTests.length} from pseudo files)`);
     console.log('   - Complete directory structure for test organization');
 
     if (parsedPseudoTests.length > 0) {
         console.log('📝 Pseudo files processed:');
         parsedPseudoTests.forEach(test => {
-            console.log(`   - ${test.testCaseId}: ${test.testCaseName} [${test.component}]`);
+            console.log(`   - ${test.testCaseId}: ${test.testCaseName}`);
         });
     }
 }
@@ -431,11 +307,11 @@ export async function setupAndGenerateTests(): Promise<void> {
 
         // Step 1: Setup test data (create CSV files)
         console.log('📋 Step 1: Setting up test data...');
-        setupTestData();
+        setupWebAndApiTestData();
 
         console.log('\n⏳ Step 2: Generating Playwright tests from CSV files...');
 
-        // Step 2: Generate Playwright tests using a Python script
+        // Step 2: Generate Playwright tests using Python script
         await generatePlaywrightTests();
 
         console.log('\n🎉 Complete! Test setup and generation finished successfully.');

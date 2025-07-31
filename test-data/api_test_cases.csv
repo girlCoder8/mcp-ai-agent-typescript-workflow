@@ -1,0 +1,7 @@
+Test Case ID,Step,API Endpoint,Method,Request Payload,Headers,Expected Status Code,Expected Response
+TC0001,1 - Verify API Availability,/health,GET,,"",200,"{""status"": ""healthy""}"
+TC0001,2 - Login,/auth/login,POST,"{""username"": ""admin"", ""password"": ""secure_password""}","Content-Type: application/json",200,"{""token"": ""<auth_token>""}"
+TC0001,3 - Search for Red Wine,/products/search?query=wine,GET,,"Authorization: Bearer <auth_token>",200,"{""products"": [{""id"": ""<product_id>"", ""name"": ""red wine"", ...}]}"
+TC0001,4 - Add Wine to Cart,/cart/items,POST,"{""product_id"": ""<product_id>"", ""quantity"": 1}","Authorization: Bearer <auth_token>, Content-Type: application/json",201,"{""cart_id"": ""<cart_id>""}"
+TC0001,5 - Checkout with Credit Card,/orders,POST,"{""cart_id"": ""<cart_id>"", ""payment_method"": ""credit_card"", ""payment_details"": {""card_number"": ""4111111111111111"", ""expiry"": ""12/27"", ""cvv"": ""123""}}","Authorization: Bearer <auth_token>, Content-Type: application/json",201,"{""order_id"": ""<order_id>""}"
+TC0001,6 - Confirm Order Success,/orders/<order_id>,GET,,"Authorization: Bearer <auth_token>",200,"{""status"": ""confirmed"", ""message"": ""Thank you""}"

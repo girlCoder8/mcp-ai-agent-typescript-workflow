@@ -6,4 +6,4 @@ def analyze(log_file):
     # Add Root Cause Analysis logic here
 
 if __name__ == "__main__":
-    analyze("../data/chaos/fault-patterns/serviceA_faults.csv")
+    analyze("../../data/chaos/fault-patterns/system_logs.csv")

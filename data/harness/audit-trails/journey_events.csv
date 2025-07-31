@@ -1,0 +1,13 @@
+user_id,timestamp,event,page,metadata
+u-1001,2024-07-01T09:20:12Z,page_view,Home,"{}"
+u-1001,2024-07-01T09:20:15Z,click,Home,"{""button"":""SignUp""}"
+u-1001,2024-07-01T09:20:20Z,page_view,SignUp,"{}"
+u-1001,2024-07-01T09:20:55Z,form_submit,SignUp,"{""result"":""success""}"
+u-2044,2024-07-01T10:02:36Z,page_view,Home,"{}"
+u-2044,2024-07-01T10:03:00Z,click,Home,"{""button"":""Login""}"
+u-2044,2024-07-01T10:03:10Z,page_view,Login,"{}"
+u-2044,2024-07-01T10:03:45Z,form_submit,Login,"{""result"":""failed""}"
+u-2044,2024-07-01T10:04:01Z,page_view,Home,"{}"
+u-2099,2024-07-01T10:05:20Z,page_view,Home,"{}"
+u-2099,2024-07-01T10:05:23Z,click,Home,"{""button"":""Features""}"
+u-2099,2024-07-01T10:05:35Z,page_view,Features,"{}"

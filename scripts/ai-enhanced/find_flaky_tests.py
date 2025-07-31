@@ -4,7 +4,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 LOG_PATH = "pipeline-reports/test_run_history.json"
 
 def is_flaky(history):
-    return len(set(history[-5:])) > 1  # Example: last 5 runs not all pass/fail
+    return len(set(history[-5:])) > 1  #l ast 5 runs not all pass/fail
 
 with open(LOG_PATH) as f:
     run_data = json.load(f)
@@ -12,7 +12,7 @@ with open(LOG_PATH) as f:
 results_summary = []
 for test in run_data["tests"]:
     name = test["name"]
-    history = test["history"]  # e.g. ["pass", "pass", "fail", "pass", "fail"]
+    history = test["history"]  # ["pass", "pass", "fail", "pass", "fail"]
     if is_flaky(history):
         ai_comment = openai.ChatCompletion.create(
             model="gpt-4o",

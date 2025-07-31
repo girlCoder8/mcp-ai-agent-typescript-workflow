@@ -29,10 +29,15 @@ export function validateTestData(): void {
     console.log('🔍 Validating test data files...\n');
 
     const requiredFiles = [
-        './test-data/web-test-cases.csv',
-        './test-data/mobile-test-cases.csv',
-        './test-data/web-steps.pseudo',
-        './test-data/mobile-steps.pseudo'
+        './test-data/api_test_cases.csv',
+        './test-data/web_test_cases.csv',
+        './test-data/mobile-wdio_test_cases.csv',
+        './test-data/web_steps.pseudo',
+        './test-data/mobile_wdio_steps.pseudo',
+        './test-data/mobile_wdio_steps.pseudo',
+        './test-data/mobile_headspin_test_cases.pseudo',
+        './test-data/TC001_purchase_scenario.pseudo',
+        './test-data/TC002_login_scenario.pseudo',
     ];
 
     let allValid = true;

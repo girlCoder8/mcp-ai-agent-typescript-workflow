@@ -1,0 +1,16 @@
+timestamp,service,hostname,error_level,message,response_time,cpu_usage,mem_usage,fault_type,trace_id
+2024-07-01T09:20:12Z,auth,mfe-auth-01,INFO,User login attempt,120,41,68,None,TRC-545
+2024-07-01T09:20:13Z,auth,mfe-auth-01,WARN,Unusual login latency,318,63,75,network_latency,TRC-545
+2024-07-01T09:20:14Z,auth,mfe-auth-01,ERROR,Connection timeout,999,85,94,network_partition,TRC-545
+2024-07-01T09:20:15Z,orders,mfe-orders-01,INFO,Order create API called,98,37,58,None,TRC-616
+2024-07-01T09:20:19Z,orders,mfe-orders-01,ERROR,DB connection lost,1200,92,80,database_failure,TRC-616
+2024-07-01T09:20:20Z,orders,mfe-orders-01,WARN,Fallback to cache,185,70,71,database_failure,TRC-616
+2024-07-01T09:20:23Z,payment,mfe-payment-01,INFO,Payment initialized,210,45,60,None,TRC-250
+2024-07-01T09:20:24Z,payment,mfe-payment-01,ERROR,Downstream service unavailable,1300,87,88,dependency_unavailable,TRC-250
+2024-07-01T09:20:30Z,payment,mfe-payment-01,INFO,Retrying payment,330,60,61,dependency_unavailable,TRC-250
+2024-07-01T09:20:37Z,inventory,mfe-inv-01,INFO,Stock check,90,33,56,None,TRC-870
+2024-07-01T09:20:42Z,inventory,mfe-inv-01,WARN,Inventory lag detected,408,69,78,artificial_delay,TRC-870
+2024-07-01T09:20:46Z,inventory,mfe-inv-01,ERROR,Service degraded,700,83,83,artificial_delay,TRC-870
+2024-07-01T09:21:01Z,auth,mfe-auth-01,INFO,Health check passed,70,38,50,None,TRC-119
+2024-07-01T09:21:11Z,orders,mfe-orders-01,INFO,Order complete,110,40,54,None,TRC-912
+2024-07-01T09:21:23Z,payment,mfe-payment-01,INFO,Payment succeeded,99,42,62,None,TRC-251

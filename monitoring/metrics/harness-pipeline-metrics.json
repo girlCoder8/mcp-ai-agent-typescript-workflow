@@ -1,0 +1,41 @@
+[
+  {
+    "pipeline_id": "PIPE-001",
+    "run_id": "RUN-2091",
+    "start_time": "2024-07-01T09:15:02Z",
+    "duration_seconds": 150,
+    "commit_count": 3,
+    "changed_lines": 45,
+    "test_coverage": 82.1,
+    "build_time": 110,
+    "warnings": 2,
+    "failures": 0,
+    "defect_found": 0
+  },
+  {
+    "pipeline_id": "PIPE-001",
+    "run_id": "RUN-2092",
+    "start_time": "2024-07-01T10:32:55Z",
+    "duration_seconds": 210,
+    "commit_count": 6,
+    "changed_lines": 120,
+    "test_coverage": 77.8,
+    "build_time": 150,
+    "warnings": 5,
+    "failures": 2,
+    "defect_found": 1
+  },
+  {
+    "pipeline_id": "PIPE-002",
+    "run_id": "RUN-1302",
+    "start_time": "2024-07-01T10:02:22Z",
+    "duration_seconds": 100,
+    "commit_count": 1,
+    "changed_lines": 10,
+    "test_coverage": 91.0,
+    "build_time": 85,
+    "warnings": 0,
+    "failures": 0,
+    "defect_found": 0
+  }
+]

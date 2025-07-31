@@ -1,0 +1,42 @@
+[
+  {
+    "test_id": "test_login",
+    "suite": "smoke",
+    "run_time": "2024-07-01T09:18:06Z",
+    "run_duration": 4.8,
+    "recent_flakes": 1,
+    "code_changes": 5,
+    "status": "pass",
+    "fail": 0
+  },
+  {
+    "test_id": "test_checkout",
+    "suite": "regression",
+    "run_time": "2024-07-01T10:40:22Z",
+    "run_duration": 8.5,
+    "recent_flakes": 3,
+    "code_changes": 20,
+    "status": "fail",
+    "fail": 1
+  },
+  {
+    "test_id": "test_profile_update",
+    "suite": "smoke",
+    "run_time": "2024-07-01T11:22:15Z",
+    "run_duration": 5.2,
+    "recent_flakes": 0,
+    "code_changes": 2,
+    "status": "pass",
+    "fail": 0
+  },
+  {
+    "test_id": "test_refund",
+    "suite": "regression",
+    "run_time": "2024-07-01T12:31:09Z",
+    "run_duration": 6.9,
+    "recent_flakes": 2,
+    "code_changes": 8,
+    "status": "fail",
+    "fail": 1
+  }
+]

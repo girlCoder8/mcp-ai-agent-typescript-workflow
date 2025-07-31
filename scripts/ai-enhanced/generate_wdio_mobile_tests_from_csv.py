@@ -3,7 +3,7 @@ import openai, pandas as pd, os
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 df = pd.read_csv("data/mobile_tests.csv")
-os.makedirs("gen-ai-tests/wdio", exist_ok=True)
+os.makedirs("auto-gen-ai-tests/wdio", exist_ok=True)
 
 for idx, row in df.iterrows():
     prompt = f"""
@@ -22,7 +22,7 @@ Generate a WDIO+Appium Mocha test in TypeScript with best practices.
         ]
     )
     code = resp.choices[0].message.content
-    fname = f"gen-ai-tests/wdio/mobile_{idx+1}_{row['Title'][:24].replace(' ', '_')}.spec.ts"
+    fname = f"auto-gen-ai-tests/wdio/mobile_{idx+1}_{row['Title'][:24].replace(' ', '_')}.spec.ts"
     with open(fname, "w") as f:
         f.write(code)
     print(f"Generated: {fname}")
